@@ -45,6 +45,8 @@
   * Knows 2 rooms
   * Knows which way they can be accessed
   * Has state
+* Items
+  * Items that are listed in the Items section do not exist anywhere in the game world. They are waiting to be moved into an inventory
 
 ## Example Values
 * `settings`
