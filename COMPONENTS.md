@@ -1,6 +1,6 @@
 # Multiplayer Text Adventures - Game Components
 
-# Building blocks for a text adventure construction language
+## Building blocks for a text adventure construction language
 * Settings
   * A list of options or fields filled by the author
   * Static during a game
@@ -45,7 +45,7 @@
   * Knows which way they can be accessed
   * Has state
 
-#### Components
+## Example Values
 * `settings`
   * Save checkpoints or save anywhere
   * Save on an interval, or only when player uses save command
