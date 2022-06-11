@@ -19,6 +19,7 @@
   * User enters a room
   * User acquires an item
   * Another user enters the same room as the current user
+  * Another user interacts with the current user
   * Events have conditions, effects, and messages (success, failure, maybe more?)
 * Command
   * Can use pattern matching
