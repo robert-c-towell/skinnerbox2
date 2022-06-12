@@ -1,0 +1,29 @@
+{
+    "settings": {
+        "saveType": "CHECK_POINT",
+        "playerMinimum" : 2,
+        "playerMaximum": 2,
+        "chatDistance": "INFINITE"
+    },
+    "variables": [
+        {
+            "name": "",
+            "value": ""
+        }
+    ],
+    "rooms": [
+        {
+            "id": "49f82498a",
+            "description": ""
+        }
+    ],
+    "items": [
+        {
+            "id": "3498a4298",
+            "name": "Stone of Skipping"
+        }
+    ],
+    "player": {
+        "hp": 100
+    }
+}
