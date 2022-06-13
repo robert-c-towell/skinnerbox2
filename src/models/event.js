@@ -18,14 +18,6 @@ class Event {
         this.conditions = conditions;
         this.effects = effects;
     }
-
-    toString () {
-        let data = {
-            type: this.type,
-        };
-
-        return JSON.stringify(data);
-    }
 };
 
 export {EventTypes};

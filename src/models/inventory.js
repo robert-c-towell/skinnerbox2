@@ -5,6 +5,10 @@ class Inventory {
     }
 
     add (item) {
+        // TODO: check for valid item
+        if (typeof item != Object) {
+            throw new Error(`Adding non-item to inventory. Item: ${JSON.stringify(item)}`);
+        }
         if (this.items.length < this.size) {
             this.items.push(item);
             return true;
@@ -15,16 +19,12 @@ class Inventory {
 
     remove (itemId) {
         let index = this.items.findIndex((i) => i.id = itemId);
-        this.items.splice(index, 1);
-    }
-
-    toString () {
-        let data =  {
-            size: this.size,
-            items: this.items
-        };
-        
-        return JSON.stringify(data);
+        if (index !== -1) {
+            this.items.splice(index, 1);
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 

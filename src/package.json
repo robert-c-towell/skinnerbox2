@@ -5,8 +5,14 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "test": "test"
+    "test": "jest"
   },
   "author": "Robert Towell",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/preset-env": "^7.18.2",
+    "@types/jest": "^28.1.1",
+    "babel-jest": "^28.1.1",
+    "jest": "^28.1.1"
+  }
 }
