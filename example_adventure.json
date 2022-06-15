@@ -1,0 +1,154 @@
+{
+    "settings": {
+        "saveType": "CHECK_POINT",
+        "playerMinimum" : 2,
+        "playerMaximum": 2,
+        "chatDistance": "INFINITE"
+    },
+    "connections": [
+        {
+            "id": "396482e2-2a76-4ccc-9b2d-05c104719eb3",
+            "locationA": "10ac8901-fcac-4f44-8276-6aac845cf107",
+            "locationB": "6c38c499-9b6c-4134-8a21-469b25f1c0b3",
+            "isVisible": true,
+            "type": "TWO_WAY",
+            "state": "ded0a2c3-ab3c-4846-b0d1-d580c0d2420b",
+            "states": [
+                {
+                    "id": "d7106f6c-b346-4f87-ad5c-284df1375091",
+                    "name": "open",
+                    "description": null
+                },
+                {
+                    "id": "ded0a2c3-ab3c-4846-b0d1-d580c0d2420b",
+                    "name": "closed",
+                    "description": null
+                }
+            ]
+        }
+    ],
+    "events": [
+        {
+            "id": "b1dc840f-db75-4b62-96f6-63ca233f3b35",
+
+        }
+    ],
+    "items": [
+        {
+            "id": "b93c31c2-1f01-4b4e-9fac-115caf8d0325",
+            "name": "Stone of Skipping",
+            "size": 1,
+            "inventory": null,
+            "state": "5c8387ae-54ec-41b8-88ca-8ba4ceb5100a",
+            "states": [
+                {
+                    "id": "5c8387ae-54ec-41b8-88ca-8ba4ceb5100a",
+                    "name": "default",
+                    "description": "A perfectly round grey stone, smooth as butter, and fairly light."
+                }
+            ]
+        },
+        {
+            "id": "a2e9c3df-e4fb-4af1-8022-97aa7d6aab01",
+            "name": "Old Chest",
+            "size": 8,
+            "inventory": {
+                "size": 10,
+                "inventoryRules": [],
+                "items": ["33f98ce4-ed92-4f4a-a95d-5a11fd88fb51"]
+            },
+            "state": "c48a250b-8c7c-40d3-848b-de2134a5cb2f",
+            "states": [
+                {
+                    "id": "c48a250b-8c7c-40d3-848b-de2134a5cb2f",
+                    "name": "locked",
+                    "description": "A sturdy, worn trunk with a big brass lock. Scratches surround the latch."
+                },
+                {
+                    "id": "d50e6843-3701-4037-9d0d-124862c2e509",
+                    "name": "unlocked",
+                    "description": "A sturdy, worn trunk. Scratches surround the latch."
+                }
+            ]
+        },
+        {
+            "id": "33f98ce4-ed92-4f4a-a95d-5a11fd88fb51",
+            "name": "Trusty Jack",
+            "size": 1,
+            "inventory": null,
+            "state": "ee2b16d4-7018-4b0a-853e-a0995c9d6ac5",
+            "states": [
+                {
+                    "id": "ee2b16d4-7018-4b0a-853e-a0995c9d6ac5",
+                    "name": "closed",
+                    "description": "A small box with a crank on the side."
+                },
+                {
+                    "id": "ec6b93bd-2d94-4f46-973d-b67fa2b116c5",
+                    "name": "popped",
+                    "description": "A small box with a crank on the side. The lid is open and Jack flops to the side while you inspect it."
+                }
+            ]
+        }
+    ],
+    "locations": [
+        {
+            "id": "10ac8901-fcac-4f44-8276-6aac845cf107",
+            "name": "Attic",
+            "inventory": {
+                "size": 100,
+                "inventoryRules": [],
+                "items": ["a2e9c3df-e4fb-4af1-8022-97aa7d6aab01"]
+            },
+            "state": "ff794fb9-7784-4c29-88be-fb3be5e16af5",
+            "states": [
+                {
+                    "id": "ff794fb9-7784-4c29-88be-fb3be5e16af5",
+                    "name": "default",
+                    "description": "A dusty attic with a small round window."
+                }
+            ]
+        },
+        {
+            "id": "6c38c499-9b6c-4134-8a21-469b25f1c0b3",
+            "name": "Landing",
+            "inventory": {
+                "size": 50,
+                "inventoryRules": [],
+                "items": []
+            },
+            "state": "",
+            "states": [
+                {
+                    "id": "b50ed7b4-9d41-4786-9585-fbed67094236",
+                    "name": "default",
+                    "description": "A landing at the top of a long set of stairs. A hallway stretches to your left and right, but something compels you not to go down them."
+                }
+            ]
+        }
+    ],
+    "players": [
+        {
+
+            "hp": 100
+        }
+    ],
+    "npcs": [
+        {
+            "id": "12f59df7-166e-4275-9a9e-b1e8169c49e1",
+            "name": "Fred",
+            "inventory": {
+                "size": 10,
+                "inventoryRules": [],
+                "items": []
+            }
+        }
+    ],
+    "variables": [
+        {
+            "id": "490cb119-bfe1-45b8-8c31-e012d19c0ac7",
+            "name": "",
+            "value": ""
+        }
+    ]
+}
