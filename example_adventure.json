@@ -69,6 +69,29 @@
                     "name": "unlocked",
                     "description": "A sturdy, worn trunk. Scratches surround the latch."
                 }
+            ],
+            "interactions": [
+                {
+                    "id": "986ce0e3-0c73-4fcc-b79c-35efe10771e5",
+                    "command": "open chest",
+                    "message": "The chest is locked.",
+                    "conditions": [
+                        { "STATE": ["ITEM", "a2e9c3df-e4fb-4af1-8022-97aa7d6aab01", "c48a250b-8c7c-40d3-848b-de2134a5cb2f"] }
+                    ]
+                },
+                {
+                    "id": "a7d7c1ca-9cfc-4ade-bce8-76e0ee25e5cc",
+                    "command": "open chest",
+                    "message": "The chest contains ${this.inventory.items}",
+                    "conditions": [
+                        { "STATE": ["ITEM", "a2e9c3df-e4fb-4af1-8022-97aa7d6aab01", "d50e6843-3701-4037-9d0d-124862c2e509"] },
+                        {
+                            "variable": { "INVENTORY": ["ITEM", "a2e9c3df-e4fb-4af1-8022-97aa7d6aab01"] },
+                            "operator": "",
+                            "value": ""
+                        }
+                    ]
+                }
             ]
         },
         {
@@ -87,6 +110,39 @@
                     "id": "ec6b93bd-2d94-4f46-973d-b67fa2b116c5",
                     "name": "popped",
                     "description": "A small box with a crank on the side. The lid is open and Jack flops to the side while you inspect it."
+                }
+            ],
+            "interactions": [
+                {
+                    "id": "42e048a7-80d0-4517-8059-ead13dd9e819",
+                    "command": "crank box",
+                    "message": "Carnival music plays, the lid springs up and Jack pops out!",
+                    "broadcastMessage": "${player.name} cranks a box. Carnival music plays, the lid springs up and Jack pops out!",
+                    "conditions": [
+                        { "STATE": ["ITEM", "33f98ce4-ed92-4f4a-a95d-5a11fd88fb51", "ee2b16d4-7018-4b0a-853e-a0995c9d6ac5"] }
+                    ],
+                    "effects": [
+                        { "STATE": ["ITEM", "33f98ce4-ed92-4f4a-a95d-5a11fd88fb51", "ec6b93bd-2d94-4f46-973d-b67fa2b116c5"] }
+                    ]
+                },
+                {
+                    "id": "48030152-6125-4eef-86d0-49febca6d715",
+                    "command": "crank box",
+                    "message": "The box is already cranked.",
+                    "conditions": [
+                        { "STATE": ["ITEM", "33f98ce4-ed92-4f4a-a95d-5a11fd88fb51", "ec6b93bd-2d94-4f46-973d-b67fa2b116c5"] }
+                    ]
+                },
+                {
+                    "id": "3abfeb43-ea57-46d8-8452-b9c8de976635",
+                    "command": "close box",
+                    "message": "Stuffing Jack back in the box is harder than you thought. He's in there, though.",
+                    "conditions": [
+                        { "STATE": ["ITEM", "33f98ce4-ed92-4f4a-a95d-5a11fd88fb51", "ec6b93bd-2d94-4f46-973d-b67fa2b116c5"] }
+                    ],
+                    "effects": [
+                        { "STATE": ["ITEM", "33f98ce4-ed92-4f4a-a95d-5a11fd88fb51", "ee2b16d4-7018-4b0a-853e-a0995c9d6ac5"] }
+                    ]
                 }
             ]
         }
