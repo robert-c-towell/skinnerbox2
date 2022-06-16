@@ -30,7 +30,24 @@
     "events": [
         {
             "id": "b1dc840f-db75-4b62-96f6-63ca233f3b35",
-
+            "type": "INPUT",
+            "command": "wave",
+            "message": "You wave to ${player.name}. They wave back.",
+            "broadcastMessage": "${player.name} waves at you. You wave back.",
+            "conditions": ["PLAYERS_IN_ROOM", ">", 1],
+            "effects": [
+                { "VALUE": ["VARIABLE", "timesWaved", "+1"]}
+            ]
+        },
+        {
+            "id": "7be1e7e1-566f-4eda-94e6-29190a609148",
+            "type": "INPUT",
+            "command": "wave",
+            "message": "You wave to an empty room. You feel kind of silly about it.",
+            "conditions": ["PLAYERS_IN_ROOM", "=", 1],
+            "effects": [
+                { "VALUE": ["VARIABLE", "timesWaved", "+1"]}
+            ]
         }
     ],
     "items": [
@@ -70,7 +87,7 @@
                     "description": "A sturdy, worn trunk. Scratches surround the latch."
                 }
             ],
-            "interactions": [
+            "events": [
                 {
                     "id": "986ce0e3-0c73-4fcc-b79c-35efe10771e5",
                     "command": "open chest",
@@ -112,9 +129,10 @@
                     "description": "A small box with a crank on the side. The lid is open and Jack flops to the side while you inspect it."
                 }
             ],
-            "interactions": [
+            "events": [
                 {
                     "id": "42e048a7-80d0-4517-8059-ead13dd9e819",
+                    "type": "INPUT",
                     "command": "crank box",
                     "message": "Carnival music plays, the lid springs up and Jack pops out!",
                     "broadcastMessage": "${player.name} cranks a box. Carnival music plays, the lid springs up and Jack pops out!",
@@ -127,6 +145,7 @@
                 },
                 {
                     "id": "48030152-6125-4eef-86d0-49febca6d715",
+                    "type": "INPUT",
                     "command": "crank box",
                     "message": "The box is already cranked.",
                     "conditions": [
@@ -135,6 +154,7 @@
                 },
                 {
                     "id": "3abfeb43-ea57-46d8-8452-b9c8de976635",
+                    "type": "INPUT",
                     "command": "close box",
                     "message": "Stuffing Jack back in the box is harder than you thought. He's in there, though.",
                     "conditions": [
@@ -200,11 +220,7 @@
             }
         }
     ],
-    "variables": [
-        {
-            "id": "490cb119-bfe1-45b8-8c31-e012d19c0ac7",
-            "name": "",
-            "value": ""
-        }
-    ]
+    "variables": {
+        "timesWaved": 0
+    }
 }
