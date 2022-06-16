@@ -1,16 +1,27 @@
 class Inventory {
-    constructor(size = 10, items = []) {
+    constructor(Item, size = 10, items = []) {
+        this.Item = Item;
         this.size = size;
         this.items = items;
     }
 
+    getSettableProps () {
+        let i = this.Item;
+        delete this.Item;
+
+        let props = structuredClone(this);
+        delete props.items;
+
+        this.Item = i;
+        return props;
+    }
+
     add (item) {
-        // TODO: check for valid item
-        if (typeof item != Object) {
+        if (!(item instanceof this.Item)) {
             throw new Error(`Adding non-item to inventory. Item: ${JSON.stringify(item)}`);
         }
-        if (this.items.length < this.size) {
-            this.items.push(item);
+        if (this.items.length + item.size <= this.size) {
+            this.items.push(item.id);
             return true;
         } else {
             return false;
@@ -18,7 +29,7 @@ class Inventory {
     }
 
     remove (itemId) {
-        let index = this.items.findIndex((i) => i.id = itemId);
+        let index = this.items.findIndex((id) => id === itemId);
         if (index !== -1) {
             this.items.splice(index, 1);
             return true;

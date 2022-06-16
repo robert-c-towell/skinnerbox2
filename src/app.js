@@ -4,6 +4,8 @@ import Event, {EventTypes} from "./objects/event.js";
 try {
     let i = new Inventory();
 
+    let s = i.getSettableProps();
+
     i.add(1);
     i.add(2);
 
@@ -14,8 +16,6 @@ try {
     console.log(i.items);
     i.size = 20;
     console.log(i.size);
-
-    let e = new Event(EventTypes.COMMAND, [], []);
 } catch (ex) {
     console.error(ex);
 }

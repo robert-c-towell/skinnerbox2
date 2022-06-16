@@ -11,16 +11,20 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}\\src\\app.js"
+            "program": "${workspaceFolder}/src/app.js"
         },
         {
             "type": "pwa-node",
             "request": "launch",
-            "name": "Unit Tests",
-            "skipFiles": [
-                "<node_internals>/**"
+            "name": "Jest Tests",
+            "cwd": "${workspaceFolder}/src",
+            "runtimeArgs": [
+                "--inspect-brk",
+                "${workspaceRoot}/src/node_modules/jest/bin/jest",
+                "--runInBand"
             ],
-            "program": "${workspaceFolder}\\src\\app.test.js"
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
         }
     ]
 }
