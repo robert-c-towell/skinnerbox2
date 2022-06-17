@@ -32,7 +32,12 @@ class Location {
     }
 
     getSettableProps () {
+        let inventory = this.inventory;
+        delete this.inventory;
+
         let props = structuredClone(this);
+        this.inventory = inventory;
+
         delete props.id;
         delete props.inventory;
         return props;

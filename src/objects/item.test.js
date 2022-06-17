@@ -9,7 +9,7 @@ describe("Item object", () => {
     let state;
 
     beforeEach(() => {
-        inventory = new Inventory();
+        inventory = new Inventory(Item);
         state = {
             id: uuidv4(),
             name: "",

@@ -1,5 +1,6 @@
 import Location from "./location.js";
 import Inventory from "./inventory.js";
+import Item from "./item.js";
 // TODO: use fake classes to remove some of the boiler plate
 import { v4 as uuidv4 } from 'uuid';
 
@@ -9,7 +10,7 @@ describe("Location object", () => {
     let state;
 
     beforeEach(() => {
-        inventory = new Inventory();
+        inventory = new Inventory(Item);
         state = {
             id: uuidv4(),
             name: "",

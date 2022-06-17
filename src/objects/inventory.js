@@ -1,5 +1,25 @@
 class Inventory {
     constructor(Item, size = 10, items = []) {
+        if (!Item) {
+            throw new Error(`Item class required.`);
+        }
+        if (typeof size !== "number") {
+            throw new Error(`Property size must be a number.`);
+        }
+        if (!Array.isArray(items)) {
+            throw new Error(`Property items must be an array.`);
+        } else {
+            let notAnItem;
+            for (let i of items) {
+                if (!(i instanceof Item)) {
+                    notAnItem = i;
+                    break;
+                }
+            }
+            if (notAnItem) {
+                throw new Error(`Property items must contain Items. Found: ${notAnItem}`);
+            }
+        }
         this.Item = Item;
         this.size = size;
         this.items = items;

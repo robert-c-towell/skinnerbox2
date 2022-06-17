@@ -21,6 +21,34 @@ describe("Inventory object", () => {
         expect(inventory).toBeInstanceOf(Inventory);
     });
 
+    test("constructor should throw if not supplied with Item class", () => {
+        expect(() => new Inventory()).toThrow();
+    });
+
+    test("constructor should throw if size is not a number", () => {
+        expect(() => new Inventory(Item, "string")).toThrow();
+        expect(() => new Inventory(Item, null)).toThrow();
+    });
+
+    test("constructor should initialize with items", () => {
+        let items = [new Item(undefined, "Name", undefined, undefined, state.id, [state])];
+        let inventory = new Inventory(Item, undefined, items);
+        expect(inventory).toBeTruthy();
+        expect(inventory).toBeInstanceOf(Inventory);
+    });
+
+    test("constructor should throw if items is not an array", () => {
+        expect(() => new Inventory(Item, undefined, "string")).toThrow();
+        let item = new Item(undefined, "Name", undefined, undefined, state.id, [state]);
+        expect(() => new Inventory(Item, undefined, item)).toThrow();
+    });
+
+    test("constructor should throw if items contain a non-item", () => {
+        let item = new Item(undefined, "Name", undefined, undefined, state.id, [state]);
+        let items = [item, item.getSettableProps()];
+        expect(() => new Inventory(Item, undefined, items)).toThrow();
+    });
+
     test("getSettableProps should return a subset of the Inventory", () => {
         let props = inventory.getSettableProps();
         expect(props).toBeTruthy();
