@@ -90,6 +90,7 @@
             "events": [
                 {
                     "id": "986ce0e3-0c73-4fcc-b79c-35efe10771e5",
+                    "type": "INPUT",
                     "command": "open chest",
                     "message": "The chest is locked.",
                     "conditions": [
@@ -98,6 +99,7 @@
                 },
                 {
                     "id": "a7d7c1ca-9cfc-4ade-bce8-76e0ee25e5cc",
+                    "type": "INPUT",
                     "command": "open chest",
                     "message": "The chest contains ${this.inventory.items}",
                     "conditions": [

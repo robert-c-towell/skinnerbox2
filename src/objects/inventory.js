@@ -10,6 +10,7 @@ class Inventory {
         delete this.Item;
 
         let props = structuredClone(this);
+        delete props.id;
         delete props.items;
 
         this.Item = i;
@@ -18,7 +19,7 @@ class Inventory {
 
     add (item) {
         if (!(item instanceof this.Item)) {
-            throw new Error(`Adding non-item to inventory. Item: ${JSON.stringify(item)}`);
+            throw new Error(`Adding non-Item to Inventory. Item: ${JSON.stringify(item)}`);
         }
         if (this.items.length + item.size <= this.size) {
             this.items.push(item.id);
