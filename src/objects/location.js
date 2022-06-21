@@ -2,7 +2,7 @@ import Inventory from "./inventory.js";
 import { v4 as uuidv4 } from 'uuid';
 
 class Location {
-    constructor(id = uuidv4(), name = null, inventory, state = null, states = null, events = null) {
+    constructor(id = uuidv4(), name, inventory, state, states, events = null) {
         if (!name) {
             throw new Error(`Name is a required parameter.`);
         } else if (name && typeof name !== "string") {
