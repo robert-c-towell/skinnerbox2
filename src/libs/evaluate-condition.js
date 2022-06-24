@@ -1,3 +1,7 @@
+/**
+ * Does not short circuit
+ */
+
 const Operators = {
     AND: "AND",
     OR: "OR",
@@ -18,46 +22,57 @@ class EvaluateCondition {
     }
 
     evaluate(conditions) {
-        if (!Array.isArray(conditions)) {
+        if (!conditions || !Array.isArray(conditions)) {
             throw new Error(`Parameter conditions must be an array.`);
+        } else if (conditions.length !== 2 && conditions.length !== 3) {
+            throw new Error(`Parameter conditions must contain 2-3 elements`);
+        }
+
+        let op;
+        let values = [];
+
+        for (let c of conditions) {
+            if (c && Array.isArray(c)) {
+                values.push(this.evaluate(c));
+            } else if (Object.values(Operators).includes(c)) {
+                op = c;
+            } else {
+                values.push(c);
+            }
         }
         
-        let [a, b, c] = conditions;
-        if (Array.isArray(a)) {
-            a = this.evaluate(a);
-        }
-
-        if (Array.isArray(c)) {
-            c = this.evaluate(c);
-        }
-
-        switch(b) {
-            case Operators.AND:
-                return a && c;
-            case Operators.OR:
-                return a || c;
-            case Operators.NOT:
-                throw new Error(`Operator NOT undefined`);
-            case Operators.EQUAL:
-                return a == c;
-            case Operators.NOT_EQUAL:
-                return a != c;
-            case Operators.GREATER_THAN:
-                return a > c;
-            case Operators.GREATER_THAN_OR_EQUAL:
-                return a >= c;
-            case Operators.LESS_THAN:
-                return a < c;
-            case Operators.LESS_THAN_OR_EQUAL:
-                return a <= c;
-            case Operators.EXISTS:
-                throw new Error(`Operator EXISTS undefined`);
-            case Operators.NOT_EXISTS:
-                throw new Error(`Operator EXISTS undefined`);
-        }
+        return compare(op, ...values);
     }
-    
 };
+
+function compare(op, a, b) {
+    switch(op) {
+        case Operators.AND:
+            return a && b;
+        case Operators.OR:
+            return a || b;
+        case Operators.NOT:
+            return !a;
+        case Operators.EQUAL:
+            return a == b;
+        case Operators.NOT_EQUAL:
+            return a != b;
+        case Operators.GREATER_THAN:
+            return a > b;
+        case Operators.GREATER_THAN_OR_EQUAL:
+            return a >= b;
+        case Operators.LESS_THAN:
+            return a < b;
+        case Operators.LESS_THAN_OR_EQUAL:
+            return a <= b;
+        case Operators.EXISTS:
+            return a !== null && a !== undefined;
+        case Operators.NOT_EXISTS:
+            return a === null || a === undefined;
+        default:
+            throw new Error(`Undexpected operator ${op}, cannot be evaluated.`);
+    }
+}
 
 export { Operators };
 export {EvaluateCondition as default};
