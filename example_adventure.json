@@ -8,9 +8,15 @@
     "connections": [
         {
             "id": "396482e2-2a76-4ccc-9b2d-05c104719eb3",
-            "locationA": "10ac8901-fcac-4f44-8276-6aac845cf107",
-            "locationB": "6c38c499-9b6c-4134-8a21-469b25f1c0b3",
-            "isVisible": true,
+            "locationA": {
+                "id": "10ac8901-fcac-4f44-8276-6aac845cf107",
+                "direction": "up"
+            },
+            "locationB": {
+                "id": "6c38c499-9b6c-4134-8a21-469b25f1c0b3",
+                "direction": "down"
+            },
+            "isPrinted": true,
             "type": "TWO_WAY",
             "state": "ded0a2c3-ab3c-4846-b0d1-d580c0d2420b",
             "states": [
@@ -34,9 +40,9 @@
             "command": "wave",
             "message": "You wave to ${player.name}. They wave back.",
             "broadcastMessage": "${player.name} waves at you. You wave back.",
-            "conditions": ["PLAYERS_IN_ROOM", ">", 1],
+            "conditions": ["player.location.number_of_players", ">", 1],
             "effects": [
-                { "VALUE": ["VARIABLE", "timesWaved", "+1"]}
+                ["+","global.timesWaved",1]
             ]
         },
         {
@@ -44,9 +50,9 @@
             "type": "INPUT",
             "command": "wave",
             "message": "You wave to an empty room. You feel kind of silly about it.",
-            "conditions": ["PLAYERS_IN_ROOM", "=", 1],
+            "conditions": ["player.location.number_of_players", "=", 1],
             "effects": [
-                { "VALUE": ["VARIABLE", "timesWaved", "+1"]}
+                ["+","global.timesWaved",1]
             ]
         }
     ],
@@ -94,21 +100,16 @@
                     "command": "open chest",
                     "message": "The chest is locked.",
                     "conditions": [
-                        { "STATE": ["ITEM", "a2e9c3df-e4fb-4af1-8022-97aa7d6aab01", "c48a250b-8c7c-40d3-848b-de2134a5cb2f"] }
+                        ["=",["variable","item.state"],"c48a250b-8c7c-40d3-848b-de2134a5cb2f"]
                     ]
                 },
                 {
                     "id": "a7d7c1ca-9cfc-4ade-bce8-76e0ee25e5cc",
                     "type": "INPUT",
                     "command": "open chest",
-                    "message": "The chest contains ${this.inventory.items}",
+                    "message": "The chest contains ${item.inventory.items}",
                     "conditions": [
-                        { "STATE": ["ITEM", "a2e9c3df-e4fb-4af1-8022-97aa7d6aab01", "d50e6843-3701-4037-9d0d-124862c2e509"] },
-                        {
-                            "variable": { "INVENTORY": ["ITEM", "a2e9c3df-e4fb-4af1-8022-97aa7d6aab01"] },
-                            "operator": "",
-                            "value": ""
-                        }
+                        ["=",["variable","item.state"],"d50e6843-3701-4037-9d0d-124862c2e50"]
                     ]
                 }
             ]
@@ -139,10 +140,10 @@
                     "message": "Carnival music plays, the lid springs up and Jack pops out!",
                     "broadcastMessage": "${player.name} cranks a box. Carnival music plays, the lid springs up and Jack pops out!",
                     "conditions": [
-                        { "STATE": ["ITEM", "33f98ce4-ed92-4f4a-a95d-5a11fd88fb51", "ee2b16d4-7018-4b0a-853e-a0995c9d6ac5"] }
+                        ["=","item.state","ee2b16d4-7018-4b0a-853e-a0995c9d6ac5"]
                     ],
                     "effects": [
-                        { "STATE": ["ITEM", "33f98ce4-ed92-4f4a-a95d-5a11fd88fb51", "ec6b93bd-2d94-4f46-973d-b67fa2b116c5"] }
+                        ["=","item.state","ec6b93bd-2d94-4f46-973d-b67fa2b116c5"]
                     ]
                 },
                 {
@@ -151,7 +152,7 @@
                     "command": "crank box",
                     "message": "The box is already cranked.",
                     "conditions": [
-                        { "STATE": ["ITEM", "33f98ce4-ed92-4f4a-a95d-5a11fd88fb51", "ec6b93bd-2d94-4f46-973d-b67fa2b116c5"] }
+                        ["=","item.state","ec6b93bd-2d94-4f46-973d-b67fa2b116c5"]
                     ]
                 },
                 {
@@ -160,10 +161,13 @@
                     "command": "close box",
                     "message": "Stuffing Jack back in the box is harder than you thought. He's in there, though.",
                     "conditions": [
-                        { "STATE": ["ITEM", "33f98ce4-ed92-4f4a-a95d-5a11fd88fb51", "ec6b93bd-2d94-4f46-973d-b67fa2b116c5"] }
+                        ["=","item.state","ec6b93bd-2d94-4f46-973d-b67fa2b116c5"]
                     ],
                     "effects": [
-                        { "STATE": ["ITEM", "33f98ce4-ed92-4f4a-a95d-5a11fd88fb51", "ee2b16d4-7018-4b0a-853e-a0995c9d6ac5"] }
+                        ["=","item.state","ee2b16d4-7018-4b0a-853e-a0995c9d6ac5"],
+                        ["+=","item.size",[2,"+",3]],
+                        ["message","hello"],
+                        ["broadcast","hello"]
                     ]
                 }
             ]
@@ -174,7 +178,6 @@
             "id": "10ac8901-fcac-4f44-8276-6aac845cf107",
             "name": "Attic",
             "inventory": {
-                "size": 100,
                 "inventoryRules": [],
                 "items": ["a2e9c3df-e4fb-4af1-8022-97aa7d6aab01"]
             },
@@ -191,16 +194,19 @@
             "id": "6c38c499-9b6c-4134-8a21-469b25f1c0b3",
             "name": "Landing",
             "inventory": {
-                "size": 50,
-                "inventoryRules": [],
+                "inventoryRules": [
+                    {
+                        "size": 50
+                    }
+                ],
                 "items": []
             },
-            "state": "",
+            "state": "b50ed7b4-9d41-4786-9585-fbed67094236",
             "states": [
                 {
                     "id": "b50ed7b4-9d41-4786-9585-fbed67094236",
                     "name": "default",
-                    "description": "A landing at the top of a long set of stairs. A hallway stretches to your left and right, but something compels you not to go down them."
+                    "description": ["A landing at the top of a long set of stairs.", "concat", ["items.size","concat", "A hallway stretches to your left and right, but something compels you not to go down them."]]
                 }
             ]
         }
