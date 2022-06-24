@@ -25,7 +25,7 @@ describe("Event object", () => {
         expect(() => new Event(EventTypes.INPUT, { a: 1 })).toThrow();
     });
 
-    test("should required broadcastMessage to be a string", () => {
+    test("should require broadcastMessage to be a string", () => {
         expect(() => new Event(EventTypes.INPUT, "Message", 2)).toThrow();
         expect(() => new Event(EventTypes.INPUT, "Message", { a: 1 })).toThrow();
     });
@@ -40,7 +40,16 @@ describe("Event object", () => {
         expect(() => new Event(EventTypes.INPUT, "Message", undefined, [1,2], [1,2])).toBeTruthy();
     });
 
-    test("getSettableProps should return an empty object", () => {
+    test("create() should create an Event", () => {
+        event = Event.create({
+            type: EventTypes.INPUT,
+            message: "Message"
+        });
+        expect(event).toBeTruthy();
+        expect(event).toBeInstanceOf(Event);
+    });
+
+    test("getSettableProps() should return an empty object", () => {
         let props = event.getSettableProps();
         expect(props).toBeTruthy();
         expect(event).toMatchObject(props);

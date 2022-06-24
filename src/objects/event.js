@@ -46,6 +46,10 @@ class Event {
         this.effects = effects;
     }
 
+    static create(e) {
+        return new Event(e.type, e.message, e.broadcastMessage, e.conditions, e.effects);
+    }
+
     getSettableProps () {
         return {};
     }
