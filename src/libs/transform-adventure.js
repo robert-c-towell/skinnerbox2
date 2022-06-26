@@ -1,13 +1,11 @@
 class TransformAdventure {
-    constructor(Effect, Event, Inventory, Item, Location, Player, Settings, State) {
-        this.Effect = Effect;
+    constructor(Event, Inventory, Item, Location, Player, Settings) {
         this.Event = Event;
         this.Inventory = Inventory;
         this.Item = Item;
         this.Location = Location;
         this.Player = Player;
         this.Settings = Settings;
-        this.State = State;
     }
 
     toDocument (events, items, locations, players, settings) {
@@ -82,19 +80,12 @@ class TransformAdventure {
 
         let settings = (new this.Settings()).parseJSON(adventure.settings);
 
-        let variables = adventure.variables.map((v) => {
-            v = (new this.Variable()).parseJSON(v);
-            return v;
-        });
-
         let objects = {
             events: events,
             items: items,
             locations: locations,
-            npcs: npcs,
             players: players,
-            settings: settings,
-            variables: variables,
+            settings: settings
         }
 
         return objects;
