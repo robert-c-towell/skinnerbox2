@@ -19,6 +19,17 @@ class StateMachine {
          * 5. Check non-input events in the same order
          * Lastly. Build a message list of what happened for the current user, and another for the other users in the game
          */
+
+        return [
+            {
+                id: "a",
+                messages: []
+            },
+            {
+                id: "b",
+                messages: []
+            }
+        ];
     }
 };
 

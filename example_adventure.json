@@ -217,17 +217,6 @@
             "hp": 100
         }
     ],
-    "npcs": [
-        {
-            "id": "12f59df7-166e-4275-9a9e-b1e8169c49e1",
-            "name": "Fred",
-            "inventory": {
-                "size": 10,
-                "inventoryRules": [],
-                "items": []
-            }
-        }
-    ],
     "variables": {
         "timesWaved": 0
     }
