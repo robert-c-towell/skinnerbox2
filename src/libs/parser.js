@@ -16,24 +16,24 @@ const Operators = {
     NOT_EXISTS: "NOT_EXISTS"
 };
 
-class EvaluateCondition {
+class Parser {
     constructor() {
         
     }
 
-    evaluate(conditions) {
-        if (!conditions || !Array.isArray(conditions)) {
-            throw new Error(`Parameter conditions must be an array.`);
-        } else if (conditions.length !== 2 && conditions.length !== 3) {
-            throw new Error(`Parameter conditions must contain 2-3 elements`);
+    parse(expression) {
+        if (!expression || !Array.isArray(expression)) {
+            throw new Error(`Parameter expression must be an array.`);
+        } else if (expression.length !== 2 && expression.length !== 3) {
+            throw new Error(`Parameter expression must contain 2-3 elements`);
         }
 
         let op;
         let values = [];
 
-        for (let c of conditions) {
+        for (let c of expression) {
             if (c && Array.isArray(c)) {
-                values.push(this.evaluate(c));
+                values.push(this.parse(c));
             } else if (Object.values(Operators).includes(c)) {
                 op = c;
             } else {
@@ -75,4 +75,4 @@ function compare(op, a, b) {
 }
 
 export { Operators };
-export {EvaluateCondition as default};
+export {Parser as default};

@@ -38,9 +38,9 @@
             "id": "b1dc840f-db75-4b62-96f6-63ca233f3b35",
             "type": "INPUT",
             "command": "wave",
-            "message": "You wave to ${player.name}. They wave back.",
-            "broadcastMessage": "${player.name} waves at you. You wave back.",
-            "conditions": ["player.location.number_of_players", ">", 1],
+            "message": ["concat","You wave to ",["variable","player.name"],". They wave back."],
+            "broadcastMessage": ["concat",["variable","player.name"]," waves at you. You wave back."],
+            "conditions": [">", ["variable","player.location.number_of_players"], 1],
             "effects": [
                 ["+","global.timesWaved",1]
             ]
@@ -50,7 +50,7 @@
             "type": "INPUT",
             "command": "wave",
             "message": "You wave to an empty room. You feel kind of silly about it.",
-            "conditions": ["player.location.number_of_players", "=", 1],
+            "conditions": ["=", "player.location.number_of_players", 1],
             "effects": [
                 ["+","global.timesWaved",1]
             ]
@@ -107,7 +107,7 @@
                     "id": "a7d7c1ca-9cfc-4ade-bce8-76e0ee25e5cc",
                     "type": "INPUT",
                     "command": "open chest",
-                    "message": "The chest contains ${item.inventory.items}",
+                    "message": ["concat","The chest contains ",["variable","item.inventory.items"], "."],
                     "conditions": [
                         ["=",["variable","item.state"],"d50e6843-3701-4037-9d0d-124862c2e50"]
                     ]
@@ -138,12 +138,12 @@
                     "type": "INPUT",
                     "command": "crank box",
                     "message": "Carnival music plays, the lid springs up and Jack pops out!",
-                    "broadcastMessage": "${player.name} cranks a box. Carnival music plays, the lid springs up and Jack pops out!",
+                    "broadcastMessage": ["concat",["variable","player.name"]," cranks a box. Carnival music plays, the lid springs up and Jack pops out!"],
                     "conditions": [
-                        ["=","item.state","ee2b16d4-7018-4b0a-853e-a0995c9d6ac5"]
+                        ["=",["variable","item.state"],"ee2b16d4-7018-4b0a-853e-a0995c9d6ac5"]
                     ],
                     "effects": [
-                        ["=","item.state","ec6b93bd-2d94-4f46-973d-b67fa2b116c5"]
+                        ["=",["variable","item.state"],"ec6b93bd-2d94-4f46-973d-b67fa2b116c5"]
                     ]
                 },
                 {
@@ -152,7 +152,7 @@
                     "command": "crank box",
                     "message": "The box is already cranked.",
                     "conditions": [
-                        ["=","item.state","ec6b93bd-2d94-4f46-973d-b67fa2b116c5"]
+                        ["=",["variable","item.state"],"ec6b93bd-2d94-4f46-973d-b67fa2b116c5"]
                     ]
                 },
                 {
@@ -161,11 +161,11 @@
                     "command": "close box",
                     "message": "Stuffing Jack back in the box is harder than you thought. He's in there, though.",
                     "conditions": [
-                        ["=","item.state","ec6b93bd-2d94-4f46-973d-b67fa2b116c5"]
+                        ["=",["variable","item.state"],"ec6b93bd-2d94-4f46-973d-b67fa2b116c5"]
                     ],
                     "effects": [
-                        ["=","item.state","ee2b16d4-7018-4b0a-853e-a0995c9d6ac5"],
-                        ["+=","item.size",[2,"+",3]],
+                        ["=",["variable","item.state"],"ee2b16d4-7018-4b0a-853e-a0995c9d6ac5"],
+                        ["+=",["variable","item.size"],["+",2,3]],
                         ["message","hello"],
                         ["broadcast","hello"]
                     ]
@@ -206,7 +206,7 @@
                 {
                     "id": "b50ed7b4-9d41-4786-9585-fbed67094236",
                     "name": "default",
-                    "description": ["A landing at the top of a long set of stairs.", "concat", ["items.size","concat", "A hallway stretches to your left and right, but something compels you not to go down them."]]
+                    "description": "A landing at the top of a long set of stairs. A hallway stretches to your left and right, but something compels you not to go down them."
                 }
             ]
         }

@@ -3,7 +3,7 @@ import Inventory from "./../objects/inventory.js";
 import Item from "./../objects/item.js";
 import Location from "./../objects/location.js";
 
-import EvaluateCondition from "./../libs/evaluate-condition.js";
+import EvaluateCondition from "../libs/parser.js";
 
 class StateMachine {
     constructor(adventure) {
