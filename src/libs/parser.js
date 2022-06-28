@@ -3,29 +3,84 @@
  */
 
 const Operators = {
-    AND: "AND",
-    OR: "OR",
-    NOT: "NOT",
-    NOT_EQUAL: "NOT_EQUAL",
-    EQUAL: "EQUAL",
-    GREATER_THAN: "GREATER_THAN",
-    LESS_THAN: "LESS_THAN",
-    GREATER_THAN_OR_EQUAL: "GREATER_THAN_OR_EQUAL",
-    LESS_THAN_OR_EQUAL: "LESS_THAN_OR_EQUAL",
-    EXISTS: "EXISTS",
-    NOT_EXISTS: "NOT_EXISTS"
-};
+    "==": "==",
+    "!=": "!=",
+    ">": ">",
+    ">=": ">=",
+    "<": "<",
+    "<=": "<=",
+    "!": "!",
+    "=": "=",
+    "+": "+",
+    "+=": "+=",
+    "-": "-",
+    "-=": "-=",
+    "/": "/",
+    "/=": "/=",
+    "*": "*",
+    "*=": "*=",
+    "%": "%",
+    "%=": "%=",
+    "||": "||",
+    "&&": "&&",
+    concat: "concat",
+    message: "message",
+    broadcast: "broadcast",
+    contains: "contains",
+    exists: "exists",
+    variable: "variable",
+}
+
+const Functions = {
+    "||": (...args) => {return args.reduce((a,b) => {return a || b})},
+    "&&": (...args) => {return args.reduce((a,b) => {return a && b})},
+    "==": (a,b) => {return a == b},
+    "!=": (a,b) => {return a != b},
+    ">": (a,b) => {return a > b},
+    ">=": (a,b) => {return a >= b},
+    "<": (a,b) => {return a < b},
+    "<=": (a,b) => {return a <= b},
+    "!": (a) => {return !a},
+    "=": (a,b) => {},
+    "+": (a,b) => {return a + b},
+    "+=": (a,b) => {},
+    "-": (a,b) => {return a - b},
+    "-=": (a,b) => {},
+    "/": (a,b) => {return a / b},
+    "/=": (a,b) => {},
+    "*": (a,b) => {return a * b},
+    "*=": (a,b) => {},
+    "%": (a,b) => {return a % b},
+    "%=": (a,b) => {},
+    "^": (a,b) => {return Math.pow(a,b)},
+    log: (a,b) => {return Math.log(a)},
+    concat: concat,
+    message: (a) => {},
+    broadcast: (a) => {},
+    contains: (a,b) => {},
+    exists: (a) => {return a == true},
+    variable: (a,b) => {},
+}
+
+let parser;
 
 class Parser {
     constructor() {
-        
+
+    }
+
+    static create(...args) {
+        if (!parser) {
+            parser = new Parser(...args);
+        }
+        return parser;
     }
 
     parse(expression) {
         if (!expression || !Array.isArray(expression)) {
             throw new Error(`Parameter expression must be an array.`);
-        } else if (expression.length !== 2 && expression.length !== 3) {
-            throw new Error(`Parameter expression must contain 2-3 elements`);
+        } else if (expression.length < 2) {
+            throw new Error(`Parameter expression must contain at least 2 elements`);
         }
 
         let op;
@@ -41,37 +96,21 @@ class Parser {
             }
         }
         
-        return compare(op, ...values);
+        return Functions[op](...values);
     }
 };
 
-function compare(op, a, b) {
-    switch(op) {
-        case Operators.AND:
-            return a && b;
-        case Operators.OR:
-            return a || b;
-        case Operators.NOT:
-            return !a;
-        case Operators.EQUAL:
-            return a == b;
-        case Operators.NOT_EQUAL:
-            return a != b;
-        case Operators.GREATER_THAN:
-            return a > b;
-        case Operators.GREATER_THAN_OR_EQUAL:
-            return a >= b;
-        case Operators.LESS_THAN:
-            return a < b;
-        case Operators.LESS_THAN_OR_EQUAL:
-            return a <= b;
-        case Operators.EXISTS:
-            return a !== null && a !== undefined;
-        case Operators.NOT_EXISTS:
-            return a === null || a === undefined;
-        default:
-            throw new Error(`Undexpected operator ${op}, cannot be evaluated.`);
+function concat(...args) {
+    let s = "";
+    for (let arg of args) {
+        if (Array.isArray(arg)) {
+            s += parser.parse(arg);
+        } else {
+            s += arg;
+        }
     }
+
+    return s;
 }
 
 export { Operators };

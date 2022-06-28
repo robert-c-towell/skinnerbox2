@@ -4,7 +4,7 @@ describe("Parser lib", () => {
     let parser;
     
     beforeAll(() => {
-        parser = new Parser();
+        parser = Parser.create();
     })
     
     test("should create an Parser", () => {
@@ -20,41 +20,43 @@ describe("Parser lib", () => {
 
     test("parse() should handle comparison operators", () => {
         // Truthy
-        expect(parser.parse([1,Op.EQUAL,1])).toBeTruthy();
-        expect(parser.parse(["a",Op.EQUAL,"a"])).toBeTruthy();
-        expect(parser.parse([1,Op.LESS_THAN,10])).toBeTruthy();
-        expect(parser.parse([5,Op.GREATER_THAN,1])).toBeTruthy();
-        expect(parser.parse([1,Op.LESS_THAN_OR_EQUAL,1])).toBeTruthy();
-        expect(parser.parse([1,Op.GREATER_THAN_OR_EQUAL,1])).toBeTruthy();
-        expect(parser.parse(["start",Op.NOT_EQUAL,"end"])).toBeTruthy();
+        expect(parser.parse([1,Op["=="],1])).toBeTruthy();
+        expect(parser.parse(["a",Op["=="],"a"])).toBeTruthy();
+        expect(parser.parse([1,Op["<"],10])).toBeTruthy();
+        expect(parser.parse([5,Op[">"],1])).toBeTruthy();
+        expect(parser.parse([1,Op["<="],1])).toBeTruthy();
+        expect(parser.parse([1,Op[">="],1])).toBeTruthy();
+        expect(parser.parse(["start",Op["!="],"end"])).toBeTruthy();
 
         // Falsey
-        expect(parser.parse([1,Op.EQUAL,2])).toBeFalsy();
-        expect(parser.parse(["a",Op.EQUAL,"b"])).toBeFalsy();
-        expect(parser.parse([10,Op.LESS_THAN,1])).toBeFalsy();
-        expect(parser.parse([1,Op.GREATER_THAN,5])).toBeFalsy();
-        expect(parser.parse([2,Op.LESS_THAN_OR_EQUAL,1])).toBeFalsy();
-        expect(parser.parse([0,Op.GREATER_THAN_OR_EQUAL,1])).toBeFalsy();
-        expect(parser.parse(["start",Op.NOT_EQUAL,"start"])).toBeFalsy();
+        expect(parser.parse([1,Op["=="],2])).toBeFalsy();
+        expect(parser.parse(["a",Op["=="],"b"])).toBeFalsy();
+        expect(parser.parse([10,Op["<"],1])).toBeFalsy();
+        expect(parser.parse([1,Op[">"],5])).toBeFalsy();
+        expect(parser.parse([2,Op["<="],1])).toBeFalsy();
+        expect(parser.parse([0,Op[">="],1])).toBeFalsy();
+        expect(parser.parse(["start",Op["!="],"start"])).toBeFalsy();
     });
 
-    test("parse() should handle valid but weird input", () => {
-        expect(parser.parse([[1,Op.EQUAL,1],Op.EQUAL,true])).toBeTruthy();
-    });
-
-    test("parse() should handle exists", () => {
+    test("parse() exists", () => {
         // Truthy
-        expect(parser.parse(["name",Op.EXISTS])).toBeTruthy();
-        expect(parser.parse([null,Op.NOT_EXISTS])).toBeTruthy();
+        expect(parser.parse(["name",Op.exists])).toBeTruthy();
+        expect(parser.parse([Op["!"],[null,Op.exists]])).toBeTruthy();
         // Falsey
-        expect(parser.parse([null,Op.EXISTS])).toBeFalsy();
-        expect(parser.parse(["name",Op.NOT_EXISTS])).toBeFalsy();
+        expect(parser.parse([null,Op.exists])).toBeFalsy();
+        expect(parser.parse([Op["!"],["name",Op.exists]])).toBeFalsy();
     });
 
-    test("parse() should handle boolean logic operators", () => {
+    test("parse() boolean logic operators", () => {
         // Truthy
-        expect(parser.parse([[1,Op.EQUAL,1],Op.OR,[1,Op.EQUAL,2]])).toBeTruthy();
+        expect(parser.parse([[1,Op["=="],1],Op["||"],[1,Op["=="],2]])).toBeTruthy();
         // Falsey
-        expect(parser.parse([[1,Op.EQUAL,1],Op.AND,[1,Op.EQUAL,2]])).toBeFalsy();
+        expect(parser.parse([[1,Op["=="],1],Op["&&"],[1,Op["=="],2]])).toBeFalsy();
+    });
+
+    test("parse() concat", () => {
+        expect(parser.parse(["concat","This is"," a test"])).toEqual("This is a test");
+        expect(parser.parse(["concat","This ","is ","a ","test"])).toEqual("This is a test");
+        expect(parser.parse(["concat","You have ",["+",2,1]," ammo."])).toEqual("You have 3 ammo.");
     });
 });
