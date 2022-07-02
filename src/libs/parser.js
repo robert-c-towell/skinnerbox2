@@ -32,34 +32,35 @@ const Operators = {
 }
 
 const Functions = {
-    "||": (...args) => {return args.reduce((a,b) => {return a || b})},
-    "&&": (...args) => {return args.reduce((a,b) => {return a && b})},
-    "==": (a,b) => {return a == b},
-    "!=": (a,b) => {return a != b},
-    ">": (a,b) => {return a > b},
-    ">=": (a,b) => {return a >= b},
-    "<": (a,b) => {return a < b},
-    "<=": (a,b) => {return a <= b},
-    "!": (a) => {return !a},
+    "||": (...args) => args.reduce((a,b) => {return a || b}),
+    "&&": (...args) => args.reduce((a,b) => {return a && b}),
+    "==": (a,b) => a == b,
+    "!=": (a,b) => a != b,
+    ">": (a,b) => a > b,
+    ">=": (a,b) => a >= b,
+    "<": (a,b) => a < b,
+    "<=": (a,b) => a <= b,
+    "!": (a) => !a,
     "=": (a,b) => {},
-    "+": (a,b) => {return a + b},
+    "+": (a,b) => a + b,
     "+=": (a,b) => {},
-    "-": (a,b) => {return a - b},
+    "-": (a,b) => a - b,
     "-=": (a,b) => {},
-    "/": (a,b) => {return a / b},
+    "/": (a,b) => a / b,
     "/=": (a,b) => {},
-    "*": (a,b) => {return a * b},
+    "*": (a,b) => a * b,
     "*=": (a,b) => {},
-    "%": (a,b) => {return a % b},
+    "%": (a,b) => a % b,
     "%=": (a,b) => {},
-    "^": (a,b) => {return Math.pow(a,b)},
-    log: (a,b) => {return Math.log(a)},
+    "^": (a,b) => Math.pow(a,b),
+    log: (a,b) => Math.log(a),
     concat: concat,
     message: (a) => {},
     broadcast: (a) => {},
     contains: (a,b) => {},
-    exists: (a) => {return a == true},
+    exists: (a) => exists,
     variable: (a,b) => {},
+    command: (a) => {},
 }
 
 let parser;
@@ -111,6 +112,10 @@ function concat(...args) {
     }
 
     return s;
+}
+
+function exists(a) {
+    return a == true;
 }
 
 export { Operators };

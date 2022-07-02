@@ -7,27 +7,25 @@
     },
     "connections": [
         {
-            "id": "396482e2-2a76-4ccc-9b2d-05c104719eb3",
+            "id": "Attic-Landing",
             "locationA": {
-                "id": "10ac8901-fcac-4f44-8276-6aac845cf107",
+                "id": "Attic",
                 "direction": "up"
             },
             "locationB": {
-                "id": "6c38c499-9b6c-4134-8a21-469b25f1c0b3",
+                "id": "Landing",
                 "direction": "down"
             },
             "isPrinted": true,
             "type": "TWO_WAY",
-            "state": "ded0a2c3-ab3c-4846-b0d1-d580c0d2420b",
+            "state": "closed",
             "states": [
                 {
-                    "id": "d7106f6c-b346-4f87-ad5c-284df1375091",
-                    "name": "open",
+                    "id": "open",
                     "description": null
                 },
                 {
-                    "id": "ded0a2c3-ab3c-4846-b0d1-d580c0d2420b",
-                    "name": "closed",
+                    "id": "closed",
                     "description": null
                 }
             ]
@@ -35,139 +33,141 @@
     ],
     "events": [
         {
-            "id": "b1dc840f-db75-4b62-96f6-63ca233f3b35",
+            "id": "wave1",
             "type": "INPUT",
-            "command": "wave",
-            "message": ["concat","You wave to ",["variable","player.name"],". They wave back."],
-            "broadcastMessage": ["concat",["variable","player.name"]," waves at you. You wave back."],
-            "conditions": [">", ["variable","player.location.number_of_players"], 1],
+            "conditions": [
+                ["command","wave"],
+                "&&",
+                [">", ["variable","player.location.number_of_players"], 1]
+            ],
             "effects": [
-                ["+","global.timesWaved",1]
+                ["+=",["variable","global.timesWaved"], 1],
+                ["message", ["concat","You wave to ",["variable","player.name"],". They wave back."]],
+                ["broadcastMessage", ["concat",["variable","player.name"]," waves at you. You wave back."]]
             ]
         },
         {
-            "id": "7be1e7e1-566f-4eda-94e6-29190a609148",
+            "id": "wave2",
             "type": "INPUT",
-            "command": "wave",
-            "message": "You wave to an empty room. You feel kind of silly about it.",
-            "conditions": ["=", "player.location.number_of_players", 1],
+            "conditions": [
+                ["command","wave"], "&&",
+                ["==", "player.location.number_of_players", 1]
+            ],
             "effects": [
-                ["+","global.timesWaved",1]
+                ["+=",["variable","global.timesWaved"], 1],
+                ["message", "You wave to an empty room. You feel kind of silly about it."]
             ]
         }
     ],
     "items": [
         {
-            "id": "b93c31c2-1f01-4b4e-9fac-115caf8d0325",
+            "id": "Stone of Skipping",
             "name": "Stone of Skipping",
             "size": 1,
             "inventory": null,
-            "state": "5c8387ae-54ec-41b8-88ca-8ba4ceb5100a",
+            "state": "default",
             "states": [
                 {
-                    "id": "5c8387ae-54ec-41b8-88ca-8ba4ceb5100a",
-                    "name": "default",
+                    "id": "default",
                     "description": "A perfectly round grey stone, smooth as butter, and fairly light."
                 }
             ]
         },
         {
-            "id": "a2e9c3df-e4fb-4af1-8022-97aa7d6aab01",
+            "id": "Old Chest",
             "name": "Old Chest",
             "size": 8,
             "inventory": {
                 "size": 10,
                 "inventoryRules": [],
-                "items": ["33f98ce4-ed92-4f4a-a95d-5a11fd88fb51"]
+                "items": ["Trusty Jack"]
             },
-            "state": "c48a250b-8c7c-40d3-848b-de2134a5cb2f",
+            "state": "locked",
             "states": [
                 {
-                    "id": "c48a250b-8c7c-40d3-848b-de2134a5cb2f",
-                    "name": "locked",
+                    "id": "locked",
                     "description": "A sturdy, worn trunk with a big brass lock. Scratches surround the latch."
                 },
                 {
-                    "id": "d50e6843-3701-4037-9d0d-124862c2e509",
-                    "name": "unlocked",
+                    "id": "unlocked",
                     "description": "A sturdy, worn trunk. Scratches surround the latch."
                 }
             ],
             "events": [
                 {
-                    "id": "986ce0e3-0c73-4fcc-b79c-35efe10771e5",
+                    "id": "chest1",
                     "type": "INPUT",
-                    "command": "open chest",
                     "message": "The chest is locked.",
                     "conditions": [
-                        ["=",["variable","item.state"],"c48a250b-8c7c-40d3-848b-de2134a5cb2f"]
+                        ["command","open chest"],
+                        "&&",
+                        ["==",["variable","item.state"],"locked"]
                     ]
                 },
                 {
-                    "id": "a7d7c1ca-9cfc-4ade-bce8-76e0ee25e5cc",
+                    "id": "chest2",
                     "type": "INPUT",
-                    "command": "open chest",
                     "message": ["concat","The chest contains ",["variable","item.inventory.items"], "."],
                     "conditions": [
-                        ["=",["variable","item.state"],"d50e6843-3701-4037-9d0d-124862c2e50"]
+                        ["command","open chest"],
+                        "&&",
+                        ["==",["variable","item.state"],"unlocked"]
                     ]
                 }
             ]
         },
         {
-            "id": "33f98ce4-ed92-4f4a-a95d-5a11fd88fb51",
+            "id": "Trusty Jack",
             "name": "Trusty Jack",
             "size": 1,
             "inventory": null,
-            "state": "ee2b16d4-7018-4b0a-853e-a0995c9d6ac5",
+            "state": "closed",
             "states": [
                 {
-                    "id": "ee2b16d4-7018-4b0a-853e-a0995c9d6ac5",
-                    "name": "closed",
+                    "id": "closed",
                     "description": "A small box with a crank on the side."
                 },
                 {
-                    "id": "ec6b93bd-2d94-4f46-973d-b67fa2b116c5",
-                    "name": "popped",
+                    "id": "popped",
                     "description": "A small box with a crank on the side. The lid is open and Jack flops to the side while you inspect it."
                 }
             ],
             "events": [
                 {
-                    "id": "42e048a7-80d0-4517-8059-ead13dd9e819",
+                    "id": "box1",
                     "type": "INPUT",
-                    "command": "crank box",
                     "message": "Carnival music plays, the lid springs up and Jack pops out!",
                     "broadcastMessage": ["concat",["variable","player.name"]," cranks a box. Carnival music plays, the lid springs up and Jack pops out!"],
                     "conditions": [
-                        ["=",["variable","item.state"],"ee2b16d4-7018-4b0a-853e-a0995c9d6ac5"]
+                        ["command","crank box"],
+                        "&&",
+                        ["==",["variable","item.state"],"closed"]
                     ],
                     "effects": [
-                        ["=",["variable","item.state"],"ec6b93bd-2d94-4f46-973d-b67fa2b116c5"]
+                        ["=",["variable","item.state"],"popped"]
                     ]
                 },
                 {
-                    "id": "48030152-6125-4eef-86d0-49febca6d715",
+                    "id": "box2",
                     "type": "INPUT",
-                    "command": "crank box",
                     "message": "The box is already cranked.",
                     "conditions": [
-                        ["=",["variable","item.state"],"ec6b93bd-2d94-4f46-973d-b67fa2b116c5"]
+                        ["command","crank box"],
+                        "&&",
+                        ["==",["variable","item.state"],"popped"]
                     ]
                 },
                 {
                     "id": "3abfeb43-ea57-46d8-8452-b9c8de976635",
                     "type": "INPUT",
-                    "command": "close box",
                     "message": "Stuffing Jack back in the box is harder than you thought. He's in there, though.",
                     "conditions": [
-                        ["=",["variable","item.state"],"ec6b93bd-2d94-4f46-973d-b67fa2b116c5"]
+                        ["command","close box"],
+                        "&&",
+                        ["==",["variable","item.state"],"popped"]
                     ],
                     "effects": [
-                        ["=",["variable","item.state"],"ee2b16d4-7018-4b0a-853e-a0995c9d6ac5"],
-                        ["+=",["variable","item.size"],["+",2,3]],
-                        ["message","hello"],
-                        ["broadcast","hello"]
+                        ["=",["variable","item.state"],"closed"],
                     ]
                 }
             ]
@@ -175,23 +175,22 @@
     ],
     "locations": [
         {
-            "id": "10ac8901-fcac-4f44-8276-6aac845cf107",
+            "id": "Attic",
             "name": "Attic",
             "inventory": {
                 "inventoryRules": [],
-                "items": ["a2e9c3df-e4fb-4af1-8022-97aa7d6aab01"]
+                "items": ["Old Chest"]
             },
-            "state": "ff794fb9-7784-4c29-88be-fb3be5e16af5",
+            "state": "default",
             "states": [
                 {
-                    "id": "ff794fb9-7784-4c29-88be-fb3be5e16af5",
-                    "name": "default",
+                    "id": "default",
                     "description": "A dusty attic with a small round window."
                 }
             ]
         },
         {
-            "id": "6c38c499-9b6c-4134-8a21-469b25f1c0b3",
+            "id": "Landing",
             "name": "Landing",
             "inventory": {
                 "inventoryRules": [
@@ -201,11 +200,10 @@
                 ],
                 "items": []
             },
-            "state": "b50ed7b4-9d41-4786-9585-fbed67094236",
+            "state": "default",
             "states": [
                 {
-                    "id": "b50ed7b4-9d41-4786-9585-fbed67094236",
-                    "name": "default",
+                    "id": "default",
                     "description": "A landing at the top of a long set of stairs. A hallway stretches to your left and right, but something compels you not to go down them."
                 }
             ]
@@ -213,8 +211,9 @@
     ],
     "players": [
         {
-
-            "hp": 100
+            "name": "Jared",
+            "hp": 100,
+            "inventory": []
         }
     ],
     "variables": {

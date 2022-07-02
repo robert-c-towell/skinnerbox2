@@ -1,24 +1,7 @@
 const EventTypes = {
-    INPUT: "INPUT"
+    INPUT: "INPUT",
+    GENERAL: "GENERAL"
 };
-
-// const EffectTypes = {
-//     ADD_ITEM_TO_INVENTORY: "ADD_TO_INVENTORY",
-//     REMOVE_ITEM_FROM_INVENTORY: "REMOVE_FROM_INVENTORY",
-//     ADD_RULE_TO_INVENTORY: "ADD_RULE_TO_INVENTORY",
-//     REMOVE_RULE_FROM_INVENTORY: "REMOVE_RULE_FROM_INVENTORY",
-//     SET_VARIABLE: "SET_VARIABLE",
-
-// };
-
-// const ObjectTypes = {
-//     ITEM: "ITEM",
-//     LOCATION: "LOCATION",
-//     PLAYER: "PLAYER",
-//     INVENTORY: "INVENTORY",
-//     NPC: "NPC",
-//     VARIABLE: "VARIABLE"
-// };
 
 class Event {
     constructor(type, message, broadcastMessage = null, conditions = null, effects = null) {
