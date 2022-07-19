@@ -1,5 +1,6 @@
 import Inventory from "./objects/inventory.js";
 import Event, {EventTypes} from "./objects/event.js";
+import Parser, { Operators as Op } from "./libs/parser.js"
 
 try {
     let i = new Inventory();

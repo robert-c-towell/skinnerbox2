@@ -1,12 +1,12 @@
 import Event, { EventTypes } from "./event.js";
 // TODO: use fake classes to remove some of the boiler plate
-import { v4 as uuidv4 } from 'uuid';
 
 describe("Event object", () => {
     let event;
+    let id = "12";
 
     beforeEach(() => {
-        event = new Event(EventTypes.INPUT, "Message");
+        event = new Event(id, EventTypes.INPUT, [], []);
     });
 
     test("should create an Event", () => {
@@ -14,36 +14,34 @@ describe("Event object", () => {
         expect(event).toBeInstanceOf(Event);
     });
 
-    test("should require a valid type", () => {
+    test("should require a valid id", () => {
         expect(() => new Event()).toThrow();
-        expect(() => new Event("Some non-type")).toThrow();
+        expect(() => new Event(null)).toThrow();
     });
 
-    test("should require message, and it should be a string", () => {
-        expect(() => new Event(EventTypes.INPUT)).toThrow();
-        expect(() => new Event(EventTypes.INPUT, 2)).toThrow();
-        expect(() => new Event(EventTypes.INPUT, { a: 1 })).toThrow();
-    });
-
-    test("should require broadcastMessage to be a string", () => {
-        expect(() => new Event(EventTypes.INPUT, "Message", 2)).toThrow();
-        expect(() => new Event(EventTypes.INPUT, "Message", { a: 1 })).toThrow();
+    test("should require a valid type", () => {
+        expect(() => new Event(id, "Some non-type")).toThrow();
+        expect(() => new Event(id, EventTypes.INPUT, [], [])).toBeTruthy();
     });
 
     test("should require conditions to be an array", () => {
-        expect(() => new Event(EventTypes.INPUT, "Message", undefined, { a: 1 })).toThrow();
-        expect(() => new Event(EventTypes.INPUT, "Message", undefined, [1,2])).toBeTruthy();
+        expect(() => new Event(id, EventTypes.INPUT)).toThrow();
+        expect(() => new Event(id, EventTypes.INPUT, { a: 1 })).toThrow();
+        expect(() => new Event(id, EventTypes.INPUT, [1,2])).toBeTruthy();
     });
 
     test("should require effects to be an array", () => {
-        expect(() => new Event(EventTypes.INPUT, "Message", undefined, [1,2], { a: 1 })).toThrow();
-        expect(() => new Event(EventTypes.INPUT, "Message", undefined, [1,2], [1,2])).toBeTruthy();
+        expect(() => new Event(id, EventTypes.INPUT, [])).toThrow();
+        expect(() => new Event(id, EventTypes.INPUT, [1,2], { a: 1 })).toThrow();
+        expect(() => new Event(id, EventTypes.INPUT, [1,2], [1,2])).toBeTruthy();
     });
 
     test("create() should create an Event", () => {
         event = Event.create({
+            id: id,
             type: EventTypes.INPUT,
-            message: "Message"
+            conditions: [],
+            effects: []
         });
         expect(event).toBeTruthy();
         expect(event).toBeInstanceOf(Event);

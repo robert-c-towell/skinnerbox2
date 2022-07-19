@@ -1,8 +1,6 @@
-/**
- * Does not short circuit
- */
-
-const Operators = {
+export const Operators = {
+    "||": "||",
+    "&&": "&&",
     "==": "==",
     "!=": "!=",
     ">": ">",
@@ -21,14 +19,15 @@ const Operators = {
     "*=": "*=",
     "%": "%",
     "%=": "%=",
-    "||": "||",
-    "&&": "&&",
+    "^": "^",
+    log: "log",
     concat: "concat",
     message: "message",
     broadcast: "broadcast",
     contains: "contains",
     exists: "exists",
     variable: "variable",
+    command: "command",
 }
 
 const Functions = {
@@ -53,12 +52,12 @@ const Functions = {
     "%": (a,b) => a % b,
     "%=": (a,b) => {},
     "^": (a,b) => Math.pow(a,b),
-    log: (a,b) => Math.log(a),
+    log: (a) => Math.round(Math.log(a) * 100) / 100,
     concat: concat,
     message: (a) => {},
     broadcast: (a) => {},
     contains: (a,b) => {},
-    exists: (a) => exists,
+    exists: exists,
     variable: (a,b) => {},
     command: (a) => {},
 }
@@ -80,7 +79,7 @@ class Parser {
     parse(expression) {
         if (!expression || !Array.isArray(expression)) {
             throw new Error(`Parameter expression must be an array.`);
-        } else if (expression.length < 2) {
+        } if (expression.length < 2) {
             throw new Error(`Parameter expression must contain at least 2 elements`);
         }
 
@@ -96,27 +95,17 @@ class Parser {
                 values.push(c);
             }
         }
-        
+
         return Functions[op](...values);
     }
 };
 
 function concat(...args) {
-    let s = "";
-    for (let arg of args) {
-        if (Array.isArray(arg)) {
-            s += parser.parse(arg);
-        } else {
-            s += arg;
-        }
-    }
-
-    return s;
+    return args.join("");
 }
 
 function exists(a) {
-    return a == true;
+    return a != undefined && a != null && a != false;
 }
 
-export { Operators };
-export {Parser as default};
+export { Parser as default };

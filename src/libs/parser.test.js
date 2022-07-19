@@ -1,12 +1,12 @@
-import Parser, {Operators as Op} from "./parser.js";
+import Parser, { Operators as Op } from "./parser.js";
 
 describe("Parser lib", () => {
     let parser;
-    
+
     beforeAll(() => {
         parser = Parser.create();
     })
-    
+
     test("should create an Parser", () => {
         expect(parser).toBeTruthy();
         expect(parser).toBeInstanceOf(Parser);
@@ -16,6 +16,7 @@ describe("Parser lib", () => {
         expect(() => parser.parse()).toThrow();
         expect(() => parser.parse("string")).toThrow();
         expect(() => parser.parse({ a: 1 })).toThrow();
+        expect(() => parser.parse([Op["!"]])).toThrow();
     });
 
     test("parse() should handle comparison operators", () => {
@@ -38,10 +39,21 @@ describe("Parser lib", () => {
         expect(parser.parse(["start",Op["!="],"start"])).toBeFalsy();
     });
 
+    test("parse() should handle math operators", () => {
+        // Truthy
+        expect(parser.parse([1,Op["+"],1])).toEqual(2);
+        expect(parser.parse(["1",Op["-"],"1"])).toEqual(0);
+        expect(parser.parse([6,Op["/"],3])).toEqual(2);
+        expect(parser.parse([5,Op["*"],1])).toEqual(5);
+        expect(parser.parse([10,Op["%"],12])).toEqual(10);
+        expect(parser.parse([10,Op["^"],2])).toEqual(100);
+        expect(parser.parse([100,Op.log,])).toEqual(4.61);
+    });
+
     test("parse() exists", () => {
         // Truthy
         expect(parser.parse(["name",Op.exists])).toBeTruthy();
-        expect(parser.parse([Op["!"],[null,Op.exists]])).toBeTruthy();
+        expect(parser.parse([Op["!"],[Op.exists, null]])).toBeTruthy();
         // Falsey
         expect(parser.parse([null,Op.exists])).toBeFalsy();
         expect(parser.parse([Op["!"],["name",Op.exists]])).toBeFalsy();
@@ -57,6 +69,6 @@ describe("Parser lib", () => {
     test("parse() concat", () => {
         expect(parser.parse(["concat","This is"," a test"])).toEqual("This is a test");
         expect(parser.parse(["concat","This ","is ","a ","test"])).toEqual("This is a test");
-        expect(parser.parse(["concat","You have ",["+",2,1]," ammo."])).toEqual("You have 3 ammo.");
+        expect(parser.parse(["concat","You have ",[Op["+"],2,1]," ammo."])).toEqual("You have 3 ammo.");
     });
 });

@@ -33,7 +33,7 @@
     ],
     "events": [
         {
-            "id": "wave1",
+            "id": "wave 1",
             "type": "INPUT",
             "conditions": [
                 ["command","wave"],
@@ -47,7 +47,7 @@
             ]
         },
         {
-            "id": "wave2",
+            "id": "wave 2",
             "type": "INPUT",
             "conditions": [
                 ["command","wave"], "&&",
@@ -95,23 +95,27 @@
             ],
             "events": [
                 {
-                    "id": "chest1",
+                    "id": "chest 1",
                     "type": "INPUT",
-                    "message": "The chest is locked.",
                     "conditions": [
                         ["command","open chest"],
                         "&&",
                         ["==",["variable","item.state"],"locked"]
+                    ],
+                    "effects": [
+                        ["message", "The chest is locked."]
                     ]
                 },
                 {
-                    "id": "chest2",
+                    "id": "chest 2",
                     "type": "INPUT",
-                    "message": ["concat","The chest contains ",["variable","item.inventory.items"], "."],
                     "conditions": [
                         ["command","open chest"],
                         "&&",
                         ["==",["variable","item.state"],"unlocked"]
+                    ],
+                    "effects": [
+                        ["message", ["concat","The chest contains ",["variable","item.inventory.items"], "."]]
                     ]
                 }
             ]
@@ -134,33 +138,34 @@
             ],
             "events": [
                 {
-                    "id": "box1",
+                    "id": "box crank 1",
                     "type": "INPUT",
-                    "message": "Carnival music plays, the lid springs up and Jack pops out!",
-                    "broadcastMessage": ["concat",["variable","player.name"]," cranks a box. Carnival music plays, the lid springs up and Jack pops out!"],
                     "conditions": [
                         ["command","crank box"],
                         "&&",
                         ["==",["variable","item.state"],"closed"]
                     ],
                     "effects": [
-                        ["=",["variable","item.state"],"popped"]
+                        ["=",["variable","item.state"],"popped"],
+                        ["message","Carnival music plays, the lid springs up and Jack pops out!"],
+                        ["broadcastMessage", ["concat",["variable","player.name"]," cranks a box. Carnival music plays, the lid springs up and Jack pops out!"]]
                     ]
                 },
                 {
-                    "id": "box2",
+                    "id": "box crank 2",
                     "type": "INPUT",
-                    "message": "The box is already cranked.",
                     "conditions": [
                         ["command","crank box"],
                         "&&",
                         ["==",["variable","item.state"],"popped"]
+                    ],
+                    "effects": [
+                        ["message", "The box is already cranked."]
                     ]
                 },
                 {
-                    "id": "3abfeb43-ea57-46d8-8452-b9c8de976635",
+                    "id": "box close",
                     "type": "INPUT",
-                    "message": "Stuffing Jack back in the box is harder than you thought. He's in there, though.",
                     "conditions": [
                         ["command","close box"],
                         "&&",
@@ -168,6 +173,7 @@
                     ],
                     "effects": [
                         ["=",["variable","item.state"],"closed"],
+                        ["message", "Stuffing Jack back in the box is harder than you thought. He's in there, though."]
                     ]
                 }
             ]

@@ -45,6 +45,20 @@ describe("Location object", () => {
         expect(() => new Location(uuidv4(), "Name", inventory, state.id, null)).toThrow();
     });
 
+    test("create() should turn json into a Location", () => {
+        let json = {
+            id: uuidv4(),
+            name: "item",
+            inventory: inventory,
+            state: state.id,
+            states: [state],
+            events: null
+        };
+        let item = Location.create(json)
+        expect(item).toBeTruthy();
+        expect(item).toBeInstanceOf(Location);
+    });
+
     test("getSettableProps should return an object subset of the Location", () => {
         let props = location.getSettableProps();
         expect(props).toBeTruthy();

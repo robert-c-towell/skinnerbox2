@@ -25,6 +25,10 @@ class Inventory {
         this.items = items;
     }
 
+    static create(i) {
+        return new Inventory(i.Item, i.size, i.items);
+    }
+
     getSettableProps () {
         let i = this.Item;
         delete this.Item;

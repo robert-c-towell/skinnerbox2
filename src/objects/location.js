@@ -31,6 +31,10 @@ class Location {
         this.events = events;
     }
 
+    static create(i) {
+        return new Location(i.id, i.name, i.inventory, i.state, i.states, i.events);
+    }
+
     getSettableProps () {
         let inventory = this.inventory;
         delete this.inventory;

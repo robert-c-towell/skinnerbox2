@@ -12,8 +12,8 @@ class TransformAdventure {
         let adventure = {
             events: [...events] || [],
             items: [...items] || [],
-            locations: [...locations],
-            players: [...players],
+            locations: [...locations] || [],
+            players: [...players] || [],
             settings: settings
         };
     
@@ -21,6 +21,7 @@ class TransformAdventure {
     }
     
     toObjects(adventure) {
+        let Item = this.Item;
         function inventoryToObject(inventory) {
             if (inventory === null || inventory === undefined) {
                 return null;
@@ -28,57 +29,39 @@ class TransformAdventure {
 
             let items = inventory.items.map((i) => {
                 let itemInventory = inventoryToObject(i.inventory);
-                i = (new this.Item()).parseJSON(i);
+                i = Item.create(i);
                 i.inventory = itemInventory;
                 return i;
             });
-            inventory = (new this.Inventory()).parseJSON(inventory);
+            inventory = this.Inventory.create(inventory);
             inventory.items = items;
             return inventory;
         }
 
-        let events = adventure.events.map((e) => {
-            let effects = e.effects.map((ef) => {
-                ef = (new this.Effect()).parseJSON(ef);
-                return ef;
-            });
-            e = (new this.Event()).parseJSON(e);
-            e.effects = effects;
-            return e;
-        });
+        let events = adventure.events.map((e) => this.Event.create(e));
 
-        let items = adventure.item.map((i) => {
+        let items = adventure.items.map((i) => {
             let inventory = inventoryToObject(i.inventory);
-            let states = i.states.map((s) => {
-                s = (new this.State()).parseJSON(s);
-                return s;
-            });
-            i = (new this.Item()).parseJSON(i);
+            i = Item.create(i);
             i.inventory = inventory;
-            i.states = states;
             return i;
         });
 
         let locations = adventure.locations.map((l) => {
             let inventory = inventoryToObject(l.inventory);
-            let states = l.states.map((s) => {
-                s = (new this.State()).parseJSON(s);
-                return s;
-            });
-            l = (new this.Location()).parseJSON(l);
+            l = this.Location.create(l);
             l.inventory = inventory;
-            l.states = states;
             return l;
         });
         
         let players = adventure.players.map((p) => {
             let inventory = inventoryToObject(p.inventory);
-            p = (new this.Player()).parseJSON(p);
+            p = this.Player.create(p);
             p.inventory = inventory;
             return p;
         });
 
-        let settings = (new this.Settings()).parseJSON(adventure.settings);
+        let settings = this.Settings.create(adventure.settings);
 
         let objects = {
             events: events,

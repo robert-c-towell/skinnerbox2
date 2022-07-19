@@ -30,6 +30,10 @@ class Item {
         this.events = events;
     }
 
+    static create(i) {
+        return new Item(i.id, i.name, i.size, i.inventory, i.state, i.states, i.events);
+    }
+
     getSettableProps () {
         let props = structuredClone(this);
         delete props.id;

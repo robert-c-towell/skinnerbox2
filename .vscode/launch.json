@@ -20,6 +20,7 @@
             "cwd": "${workspaceFolder}/src",
             "runtimeArgs": [
                 "--inspect-brk",
+                "--experimental-vm-modules",
                 "${workspaceRoot}/src/node_modules/jest/bin/jest",
                 "--runInBand"
             ],
