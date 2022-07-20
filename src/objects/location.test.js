@@ -10,7 +10,7 @@ describe("Location object", () => {
     let state;
 
     beforeEach(() => {
-        inventory = new Inventory(Item);
+        inventory = new Inventory();
         state = {
             id: uuidv4(),
             name: "",

@@ -7,7 +7,7 @@ import Location from "./../objects/location.js";
 
 import TransformAdventure from "../libs/transform-adventure.js";
 import StateMachine from "./state-machine.js";
-import * as adventure from "../../example_adventure.json";
+import adventure from "../../example_adventure.json";
 
 describe("StateMachine", () => {
     let stateMachine;

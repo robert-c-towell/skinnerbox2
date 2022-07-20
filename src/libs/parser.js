@@ -53,7 +53,7 @@ const Functions = {
     "%=": (a,b) => {},
     "^": (a,b) => Math.pow(a,b),
     log: (a) => Math.round(Math.log(a) * 100) / 100,
-    concat: concat,
+    concat: (...args) => args.join(""),
     message: (a) => {},
     broadcast: (a) => {},
     contains: (a,b) => {},
@@ -62,18 +62,9 @@ const Functions = {
     command: (a) => {},
 }
 
-let parser;
-
 class Parser {
     constructor() {
 
-    }
-
-    static create(...args) {
-        if (!parser) {
-            parser = new Parser(...args);
-        }
-        return parser;
     }
 
     parse(expression) {
@@ -99,10 +90,6 @@ class Parser {
         return Functions[op](...values);
     }
 };
-
-function concat(...args) {
-    return args.join("");
-}
 
 function exists(a) {
     return a != undefined && a != null && a != false;

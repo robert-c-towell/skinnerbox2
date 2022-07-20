@@ -21,20 +21,12 @@ class TransformAdventure {
     }
     
     toObjects(adventure) {
-        let Item = this.Item;
+        let Inventory = this.Inventory;
         function inventoryToObject(inventory) {
             if (inventory === null || inventory === undefined) {
                 return null;
             }
-
-            let items = inventory.items.map((i) => {
-                let itemInventory = inventoryToObject(i.inventory);
-                i = Item.create(i);
-                i.inventory = itemInventory;
-                return i;
-            });
-            inventory = this.Inventory.create(inventory);
-            inventory.items = items;
+            inventory = Inventory.create(inventory);
             return inventory;
         }
 
@@ -42,33 +34,33 @@ class TransformAdventure {
 
         let items = adventure.items.map((i) => {
             let inventory = inventoryToObject(i.inventory);
-            i = Item.create(i);
             i.inventory = inventory;
+            i = this.Item.create(i);
             return i;
         });
 
         let locations = adventure.locations.map((l) => {
             let inventory = inventoryToObject(l.inventory);
-            l = this.Location.create(l);
             l.inventory = inventory;
+            l = this.Location.create(l);
             return l;
         });
         
-        let players = adventure.players.map((p) => {
-            let inventory = inventoryToObject(p.inventory);
-            p = this.Player.create(p);
-            p.inventory = inventory;
-            return p;
-        });
+        // let players = adventure.players.map((p) => {
+        //     let inventory = inventoryToObject(p.inventory);
+        //     p.inventory = inventory;
+        //     p = this.Player.create(p);
+        //     return p;
+        // });
 
-        let settings = this.Settings.create(adventure.settings);
+        //let settings = this.Settings.create(adventure.settings);
 
         let objects = {
             events: events,
             items: items,
             locations: locations,
-            players: players,
-            settings: settings
+            //players: players,
+            //settings: settings
         }
 
         return objects;

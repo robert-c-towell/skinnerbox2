@@ -1,5 +1,4 @@
 import Inventory from "./inventory.js";
-import Item from "./item.js";
 // TODO: use fake classes to remove some of the boiler plate
 import { v4 as uuidv4 } from 'uuid';
 
@@ -13,7 +12,7 @@ describe("Inventory object", () => {
     }
 
     beforeEach(() => {
-        inventory = new Inventory(Item);
+        inventory = new Inventory();
     });
 
     test("constructor() should create an Inventory", () => {
@@ -21,37 +20,24 @@ describe("Inventory object", () => {
         expect(inventory).toBeInstanceOf(Inventory);
     });
 
-    test("constructor() should throw if not supplied with Item class", () => {
-        expect(() => new Inventory()).toThrow();
-    });
-
     test("constructor() should throw if size is not a number", () => {
-        expect(() => new Inventory(Item, "string")).toThrow();
-        expect(() => new Inventory(Item, null)).toThrow();
+        expect(() => new Inventory("string")).toThrow();
+        expect(() => new Inventory(null)).toThrow();
     });
 
     test("constructor() should initialize with items", () => {
-        let items = [new Item(undefined, "Name", undefined, undefined, state.id, [state])];
-        let inventory = new Inventory(Item, undefined, items);
+        let inventory = new Inventory(undefined, ["name"]);
         expect(inventory).toBeTruthy();
         expect(inventory).toBeInstanceOf(Inventory);
     });
 
     test("constructor() should throw if items is not an array", () => {
-        expect(() => new Inventory(Item, undefined, "string")).toThrow();
-        let item = new Item(undefined, "Name", undefined, undefined, state.id, [state]);
-        expect(() => new Inventory(Item, undefined, item)).toThrow();
-    });
-
-    test("constructor() should throw if items contain a non-item", () => {
-        let item = new Item(undefined, "Name", undefined, undefined, state.id, [state]);
-        let items = [item, item.getSettableProps()];
-        expect(() => new Inventory(Item, undefined, items)).toThrow();
+        expect(() => new Inventory(undefined, "string")).toThrow();
+        expect(() => new Inventory(undefined, null)).toThrow();
     });
 
     test("create() should turn json into an Inventory", () => {
         let json = {
-            Item: Item,
             id: uuidv4(),
             size: 10,
             items: []
@@ -73,31 +59,26 @@ describe("Inventory object", () => {
     });
 
     test("add() should allow adding items of size 0 when full", () => {
-        let item = new Item(undefined, "Name", 0, undefined, state.id, [state]);
         inventory.size = 0;
-        expect(inventory.add(item)).toBeTruthy();
+        expect(inventory.add("name", 0)).toBeTruthy();
     });
 
     test("add() should allow adding items of size 1+ if it is not full", () => {
-        let item = new Item(undefined, "Name", undefined, undefined, state.id, [state]);
-        expect(inventory.add(item)).toBeTruthy();
+        expect(inventory.add("name", 2)).toBeTruthy();
     });
 
     test("add() should not allow adding items of size 1+ if it is full", () => {
-        let item = new Item(undefined, "Name", undefined, undefined, state.id, [state]);
         inventory.size = 0;
-        expect(inventory.add(item)).toBeFalsy();
+        expect(inventory.add("name", 1)).toBeFalsy();
     });
 
     test("remove() should not allow removing if item is not present", () => {
-        let item = new Item(undefined, "Name", undefined, undefined, state.id, [state]);
-        expect(inventory.remove(item.id)).toBeFalsy();
+        expect(inventory.remove("name")).toBeFalsy();
     });
 
     test("remove() should allow removing if item is present", () => {
-        let item = new Item(undefined, "Name", undefined, undefined, state.id, [state] );
-        inventory.add(item);
-        expect(inventory.remove(item.id)).toBeTruthy();
-        expect(inventory.remove(item.id)).toBeFalsy();
+        inventory.add("name");
+        expect(inventory.remove("name")).toBeTruthy();
+        expect(inventory.remove("name")).toBeFalsy();
     });
 });

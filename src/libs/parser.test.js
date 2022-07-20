@@ -4,7 +4,7 @@ describe("Parser lib", () => {
     let parser;
 
     beforeAll(() => {
-        parser = Parser.create();
+        parser = new Parser();
     })
 
     test("should create an Parser", () => {
@@ -61,6 +61,7 @@ describe("Parser lib", () => {
 
     test("parse() boolean logic operators", () => {
         // Truthy
+        expect(parser.parse([Op["||"],false, true])).toBeTruthy();
         expect(parser.parse([[1,Op["=="],1],Op["||"],[1,Op["=="],2]])).toBeTruthy();
         // Falsey
         expect(parser.parse([[1,Op["=="],1],Op["&&"],[1,Op["=="],2]])).toBeFalsy();
