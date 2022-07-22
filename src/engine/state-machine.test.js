@@ -25,8 +25,16 @@ describe("StateMachine", () => {
         expect(stateMachine).toBeInstanceOf(StateMachine);
     });
 
+    test("process() should require a message object.", () => {
+        expect(() => stateMachine.process()).toThrow();
+    });
+
     test("process() should return an array of messages for each player.", () => {
-        let response = stateMachine.process();
+        let message = {
+            player: "jared",
+            input: "go north"
+        }
+        let response = stateMachine.process(message);
         expect(response).toBeTruthy();
         expect(response).toBeInstanceOf(Array);
     });

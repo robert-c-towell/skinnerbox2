@@ -1,15 +1,18 @@
+import ActionExecutorInterface from "./action-executor-interface.js";
 import Parser, { Operators as Op } from "./parser.js";
 
-describe("Parser lib", () => {
+describe("Parser", () => {
     let parser;
 
     beforeAll(() => {
-        parser = new Parser();
+        let actionExecutorInterface = new ActionExecutorInterface();
+        parser = new Parser(actionExecutorInterface);
     })
 
-    test("should create an Parser", () => {
+    test("constructor() should create a Parser", () => {
         expect(parser).toBeTruthy();
         expect(parser).toBeInstanceOf(Parser);
+        expect(() => new Parser()).toThrow();
     });
 
     test("parse() should require conditions and it should be an array", () => {
@@ -17,6 +20,8 @@ describe("Parser lib", () => {
         expect(() => parser.parse("string")).toThrow();
         expect(() => parser.parse({ a: 1 })).toThrow();
         expect(() => parser.parse([Op["!"]])).toThrow();
+        expect(() => parser.parse([Op["!"], false], {})).toThrow();
+        expect(() => parser.parse([Op["!"], false], 10)).toThrow();
     });
 
     test("parse() should handle comparison operators", () => {
@@ -71,5 +76,13 @@ describe("Parser lib", () => {
         expect(parser.parse(["concat","This is"," a test"])).toEqual("This is a test");
         expect(parser.parse(["concat","This ","is ","a ","test"])).toEqual("This is a test");
         expect(parser.parse(["concat","You have ",[Op["+"],2,1]," ammo."])).toEqual("You have 3 ammo.");
+    });
+
+    test("parse() funcs", () => {
+        expect(parser.parse(["message","This is a test"])).toEqual({message: "This is a test"});
+        expect(parser.parse(["broadcast","This is a test"])).toEqual({broadcast: "This is a test"});
+        expect(parser.parse(["contains","This is a test", "This"])).toBeTruthy();
+        expect(parser.parse(["variable","This is a test"])).toBeTruthy();
+        expect(parser.parse(["command","go north"], "go north")).toBeTruthy();
     });
 });

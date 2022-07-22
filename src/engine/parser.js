@@ -1,3 +1,5 @@
+import ActionExecutorInterface from "./action-executor-interface.js";
+
 export const Operators = {
     "||": "||",
     "&&": "&&",
@@ -33,6 +35,7 @@ export const Operators = {
 const Functions = {
     "||": (...args) => args.reduce((a,b) => {return a || b}),
     "&&": (...args) => args.reduce((a,b) => {return a && b}),
+    "=": setValue,
     "==": (a,b) => a == b,
     "!=": (a,b) => a != b,
     ">": (a,b) => a > b,
@@ -54,24 +57,29 @@ const Functions = {
     "^": (a,b) => Math.pow(a,b),
     log: (a) => Math.round(Math.log(a) * 100) / 100,
     concat: (...args) => args.join(""),
-    message: (a) => {},
-    broadcast: (a) => {},
-    contains: (a,b) => {},
+    message: (a) => ({ message: a }),
+    broadcast: (a) => ({ broadcast: a }),
+    contains: (a,b) => a.includes(b),
     exists: exists,
-    variable: (a,b) => {},
-    command: (a) => {},
+    variable: (a,b) => {throw new Error("not implemented")},
+    command: (a, input) => {throw new Error("not implemented")},
 }
 
 class Parser {
-    constructor() {
-
+    constructor(ActionExecutor) {
+        if (!(ActionExecutor instanceof ActionExecutorInterface)) {
+            throw new Error(`Parameter ActionExecutor must be of type ActionExecutorInterface`);
+        }
+        this.ActionExecutor = ActionExecutor;
     }
 
-    parse(expression) {
+    parse(expression, input) {
         if (!expression || !Array.isArray(expression)) {
             throw new Error(`Parameter expression must be an array.`);
-        } if (expression.length < 2) {
+        } else if (expression.length < 2) {
             throw new Error(`Parameter expression must contain at least 2 elements`);
+        } else if (input && typeof input != "string") {
+            throw new Error(`Parameter input must be a string.`);
         }
 
         let op;
@@ -87,9 +95,17 @@ class Parser {
             }
         }
 
-        return Functions[op](...values);
+        if (op === "command") {
+            return Functions[op](...values, input);
+        } else {
+            return Functions[op](...values);
+        }
     }
 };
+
+function setValue(a,b) {
+    this.ActionExecutor.setProperty(a,b);
+}
 
 function exists(a) {
     return a != undefined && a != null && a != false;

@@ -217,9 +217,18 @@
     ],
     "players": [
         {
-            "name": "Jared",
+            "name": "jared",
             "hp": 100,
-            "inventory": []
+            "inventory": {
+                "items": []
+            }
+        },
+        {
+            "name": "zeus",
+            "hp": 100,
+            "inventroy": {
+                "items": []
+            }
         }
     ],
     "variables": {
