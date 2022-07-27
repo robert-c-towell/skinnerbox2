@@ -1,12 +1,14 @@
-import ActionExecutorInterface from "./action-executor-interface.js";
+import StateExecutorInterface from "./state-executor-interface.js";
 import Parser, { Operators as Op } from "./parser.js";
+
+import adventure from "../../example_adventure.json";
 
 describe("Parser", () => {
     let parser;
 
     beforeAll(() => {
-        let actionExecutorInterface = new ActionExecutorInterface();
-        parser = new Parser(actionExecutorInterface);
+        let stateExecutorInterface = new StateExecutorInterface(adventure);
+        parser = new Parser(stateExecutorInterface);
     })
 
     test("constructor() should create a Parser", () => {

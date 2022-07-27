@@ -1,4 +1,4 @@
-import ActionExecutorInterface from "./action-executor-interface.js";
+import StateExecutorInterface from "./state-executor-interface.js";
 
 export const Operators = {
     "||": "||",
@@ -66,11 +66,11 @@ const Functions = {
 }
 
 class Parser {
-    constructor(ActionExecutor) {
-        if (!(ActionExecutor instanceof ActionExecutorInterface)) {
-            throw new Error(`Parameter ActionExecutor must be of type ActionExecutorInterface`);
+    constructor(StateExecutor) {
+        if (!(StateExecutor instanceof StateExecutorInterface)) {
+            throw new Error(`Parameter StateExecutor must be of type StateExecutorInterface`);
         }
-        this.ActionExecutor = ActionExecutor;
+        this.StateExecutor = StateExecutor;
     }
 
     parse(expression, input) {
@@ -104,7 +104,7 @@ class Parser {
 };
 
 function setValue(a,b) {
-    this.ActionExecutor.setProperty(a,b);
+    this.StateExecutor.setProperty(a,b);
 }
 
 function exists(a) {

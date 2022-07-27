@@ -3,7 +3,7 @@ import Inventory from "./../objects/inventory.js";
 import Item from "./../objects/item.js";
 import Location from "./../objects/location.js";
 
-import ActionExecutor from "./action-executor.js";
+import StateExecutor from "./state-executor.js";
 import Parser from "./parser.js";
 
 /**
@@ -16,8 +16,8 @@ import Parser from "./parser.js";
 
 class StateMachine {
     constructor(adventure) {
-        let actionExecutor = new ActionExecutor(adventure);
-        this.parser = new Parser(actionExecutor);
+        let stateExecutor = new StateExecutor(adventure);
+        this.parser = new Parser(stateExecutor);
 
         this.adventure = adventure;
     }

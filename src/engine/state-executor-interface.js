@@ -1,4 +1,4 @@
-class ActionExecutorInterface {
+class StateExecutorInterface {
     constructor(adventure) {
         if (!adventure) {
             throw new Error("Property adventure required.");
@@ -6,8 +6,8 @@ class ActionExecutorInterface {
         this.adventure = adventure;
     }
 
-    getProperty (object) {}
-    setProperty (object, value) {}
+    getProperty () {}
+    setProperty () {}
 }
 
-export {ActionExecutorInterface as default};
+export {StateExecutorInterface as default};
