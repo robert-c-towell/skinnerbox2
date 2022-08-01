@@ -1,18 +1,18 @@
 class TransformAdventure {
-    constructor(Event, Inventory, Item, Location, Player, Settings) {
+    constructor(Event, Inventory, Item, Room, Player, Settings) {
         this.Event = Event;
         this.Inventory = Inventory;
         this.Item = Item;
-        this.Location = Location;
+        this.Room = Room;
         this.Player = Player;
         this.Settings = Settings;
     }
 
-    toDocument (events, items, locations, players, settings) {
+    toDocument (events, items, rooms, players, settings) {
         let adventure = {
             events: [...events] || [],
             items: [...items] || [],
-            locations: [...locations] || [],
+            rooms: [...rooms] || [],
             players: [...players] || [],
             settings: settings
         };
@@ -39,10 +39,10 @@ class TransformAdventure {
             return i;
         });
 
-        let locations = adventure.locations.map((l) => {
+        let rooms = adventure.rooms.map((l) => {
             let inventory = inventoryToObject(l.inventory);
             l.inventory = inventory;
-            l = this.Location.create(l);
+            l = this.Room.create(l);
             return l;
         });
         
@@ -58,7 +58,7 @@ class TransformAdventure {
         let objects = {
             events: events,
             items: items,
-            locations: locations,
+            rooms: rooms,
             //players: players,
             //settings: settings
         }

@@ -1,7 +1,7 @@
 import Inventory from "./inventory.js";
 import { v4 as uuidv4 } from 'uuid';
 
-class Location {
+class Room {
     constructor(id = uuidv4(), name, inventory, state, states, events = null) {
         if (!name) {
             throw new Error(`Name is a required parameter.`);
@@ -32,7 +32,7 @@ class Location {
     }
 
     static create(i) {
-        return new Location(i.id, i.name, i.inventory, i.state, i.states, i.events);
+        return new Room(i.id, i.name, i.inventory, i.state, i.states, i.events);
     }
 
     getSettableProps () {
@@ -48,4 +48,4 @@ class Location {
     }
 };
 
-export {Location as default};
+export {Room as default};

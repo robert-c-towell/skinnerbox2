@@ -8,11 +8,11 @@
     "connections": [
         {
             "id": "Attic-Landing",
-            "locationA": {
+            "roomA": {
                 "id": "Attic",
                 "direction": "up"
             },
-            "locationB": {
+            "roomB": {
                 "id": "Landing",
                 "direction": "down"
             },
@@ -38,7 +38,7 @@
             "conditions": [
                 ["command","wave"],
                 "&&",
-                [">", ["variable","player.location.number_of_players"], 1]
+                [">", ["variable","player.room.number_of_players"], 1]
             ],
             "effects": [
                 ["+=",["variable","global.timesWaved"], 1],
@@ -51,7 +51,7 @@
             "type": "INPUT",
             "conditions": [
                 ["command","wave"], "&&",
-                ["==", "player.location.number_of_players", 1]
+                ["==", "player.room.number_of_players", 1]
             ],
             "effects": [
                 ["+=",["variable","global.timesWaved"], 1],
@@ -179,7 +179,7 @@
             ]
         }
     ],
-    "locations": [
+    "rooms": [
         {
             "id": "Attic",
             "name": "Attic",

@@ -1,7 +1,7 @@
 //TODO: use fake classes for testing
 import Inventory from "../objects/inventory.js";
 import Item from "../objects/item.js";
-import Location from "../objects/location.js";
+import Room from "../objects/room.js";
 import Event from "../objects/event.js";
 import TransformAdventure from "./transform-adventure.js";
 //import Player from "./../objects/player.js";
@@ -14,7 +14,7 @@ describe("Transform Adventure lib", () => {
     beforeAll(() => {
         let Player = {};
         let Settings = {};
-        transformAdventure = new TransformAdventure(Event, Inventory, Item, Location, Player, Settings);
+        transformAdventure = new TransformAdventure(Event, Inventory, Item, Room, Player, Settings);
     });
 
     it("should convert a document to objects", () => {

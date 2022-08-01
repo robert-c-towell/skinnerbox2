@@ -1,7 +1,7 @@
 import Event, {EventTypes} from "./../objects/event.js";
 import Inventory from "./../objects/inventory.js";
 import Item from "./../objects/item.js";
-import Location from "./../objects/location.js";
+import Room from "./../objects/room.js";
 
 import StateExecutor from "./state-executor.js";
 import Parser from "./parser.js";
@@ -32,8 +32,8 @@ class StateMachine {
         }
         /**
          * 1. Check input events on items in the player's inventory
-         * 2. Check input events in the player's location
-         * 3. Check input events on items in the location's inventory
+         * 2. Check input events in the player's room
+         * 3. Check input events on items in the room's inventory
          * 4. Check input events globally
          * 5. Check non-input events in the same order
          * 6. Execute the events

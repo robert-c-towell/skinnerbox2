@@ -3,10 +3,10 @@ const variables = {
 
     ],
     player: {
-        location: null,
+        room: null,
 
     },
-    locations: [
+    rooms: [
 
     ],
     items: [

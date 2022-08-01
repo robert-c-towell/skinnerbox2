@@ -7,8 +7,8 @@
 * Event Engine
   * If event is a command
     * Check if the command exists in an item in the player's inventory
-    * Check if the command exists in the location
-    * Check if the command exists based on npc's or other players in the same location
+    * Check if the command exists in the room
+    * Check if the command exists based on npc's or other players in the same room
     * Check if the command exists in the global commands list, prefering author-created ones over default
     * *Customizable so it check custom objects for commands, in the order deemed appropriate by the author*
   * Evaluate all conditions
@@ -16,9 +16,9 @@
   * If invalid and the event is a command, show message
 * Event
   * User types a command
-  * User enters a location
+  * User enters a room
   * User acquires an item
-  * Another user enters the same location as the current user
+  * Another user enters the same room as the current user
   * Another user interacts with the current user
   * Events have conditions, effects, and messages (success, failure, maybe more?)
 * Command
@@ -33,16 +33,16 @@
   * Set any object or variable's property (increment, decrement)
   * Create new objects or variables
 * Object
-  * A building block of the adventure. Items, Locations, Connections, Players, NPCs, and Custom Objects are all objects
+  * A building block of the adventure. Items, Rooms, Connections, Players, NPCs, and Custom Objects are all objects
   * Has a type
   * Has state
   * Can have inventory
   * Commands
   * Custom properties
-* Location
+* Room
   * Has inventory
 * Connection
-  * Knows 2 locations
+  * Knows 2 rooms
   * Knows which way they can be accessed
   * Has state
 * Items
@@ -55,14 +55,14 @@
   * Number of players
   * chat distance
   * 
-* `location`
-  * `connection` - connection to another location
+* `room`
+  * `connection` - connection to another room
     * `directional` - is it a 1-way or 2-way movement
     * `direction` - (north, south, east, west, up, down, custom)
   * `save_checkpoint`
 * `player`
   * `inventory`
-  * `location`
+  * `room`
   * `nickname` - name of the character in-game (ex. 'the giant waves')
 * `item`
 * `variables` - with types (flag/bool, number/float, text/string)
@@ -72,7 +72,7 @@
 * `npc`
   * `loction`
   * `mood` - friendly, enemy
-  * `path` - traveling behavior, perhaps messages it says in these locations
+  * `path` - traveling behavior, perhaps messages it says in these rooms
   * `hp`
   * `inventory`
 * custom objects
