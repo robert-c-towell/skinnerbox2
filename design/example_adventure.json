@@ -5,32 +5,6 @@
         "playerMaximum": 2,
         "chatDistance": "INFINITE"
     },
-    "connections": [
-        {
-            "id": "Attic-Landing",
-            "roomA": {
-                "id": "Attic",
-                "direction": "up"
-            },
-            "roomB": {
-                "id": "Landing",
-                "direction": "down"
-            },
-            "isPrinted": true,
-            "type": "TWO_WAY",
-            "state": "closed",
-            "states": [
-                {
-                    "id": "open",
-                    "description": null
-                },
-                {
-                    "id": "closed",
-                    "description": null
-                }
-            ]
-        }
-    ],
     "events": [
         {
             "id": "wave 1",
@@ -38,7 +12,7 @@
             "conditions": [
                 ["command","wave"],
                 "&&",
-                [">", ["variable","player.room.number_of_players"], 1]
+                [">", ["variable","player.scene.number_of_players"], 1]
             ],
             "effects": [
                 ["+=",["variable","global.timesWaved"], 1],
@@ -51,11 +25,11 @@
             "type": "INPUT",
             "conditions": [
                 ["command","wave"], "&&",
-                ["==", "player.room.number_of_players", 1]
+                ["==", "player.scene.number_of_players", 1]
             ],
             "effects": [
                 ["+=",["variable","global.timesWaved"], 1],
-                ["message", "You wave to an empty room. You feel kind of silly about it."]
+                ["message", "You wave to an empty scene. You feel kind of silly about it."]
             ]
         }
     ],
@@ -179,7 +153,7 @@
             ]
         }
     ],
-    "rooms": [
+    "scenes": [
         {
             "id": "Attic",
             "name": "Attic",

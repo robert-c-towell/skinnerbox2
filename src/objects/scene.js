@@ -1,17 +1,11 @@
-import Inventory from "./inventory.js";
 import { v4 as uuidv4 } from 'uuid';
 
-class Room {
-    constructor(id = uuidv4(), name, inventory, state, states, events = null) {
+class Scene {
+    constructor(id = uuidv4(), name, state, states, events = null) {
         if (!name) {
             throw new Error(`Name is a required parameter.`);
         } else if (name && typeof name !== "string") {
             throw new Error(`Name must be a string.`);
-        }
-        if (!inventory) {
-            throw new Error(`Inventory is a required parameter.`);
-        } else if (inventory && !(inventory instanceof Inventory)) {
-            throw new Error(`Adding non-Inventory to Item. Inventory: ${JSON.stringify(inventory)}`);
         }
         if (!state) {
             throw new Error(`State is a required parameter.`);
@@ -25,27 +19,21 @@ class Room {
         }
         this.id = id;
         this.name = name;
-        this.inventory = inventory;
         this.state = state;
         this.states = states;
         this.events = events;
     }
 
     static create(i) {
-        return new Room(i.id, i.name, i.inventory, i.state, i.states, i.events);
+        return new Scene(i.id, i.name, i.state, i.states, i.events);
     }
 
     getSettableProps () {
-        let inventory = this.inventory;
-        delete this.inventory;
-
         let props = structuredClone(this);
-        this.inventory = inventory;
 
         delete props.id;
-        delete props.inventory;
         return props;
     }
 };
 
-export {Room as default};
+export {Scene as default};

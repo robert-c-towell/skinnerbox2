@@ -1,7 +1,6 @@
 import Event, {EventTypes} from "./../objects/event.js";
-import Inventory from "./../objects/inventory.js";
 import Item from "./../objects/item.js";
-import Room from "./../objects/room.js";
+import Scene from "./../objects/scene.js";
 
 import StateExecutor from "./state-executor.js";
 import Parser from "./parser.js";
@@ -30,14 +29,14 @@ class StateMachine {
         if (!message || typeof message !== "object") {
             throw new Error("Property message is required and must be an object");
         }
+
         /**
-         * 1. Check input events on items in the player's inventory
-         * 2. Check input events in the player's room
-         * 3. Check input events on items in the room's inventory
-         * 4. Check input events globally
-         * 5. Check non-input events in the same order
-         * 6. Execute the events
-         * 7. Lastly, build a message list of what happened for the current player, and another for the other players
+         * 1. Check player for relevant actions
+         * 2. Check props on the player for actions
+         * 3. Check scene the player is in for actions
+         * 4. Check players on the scene the player is in for actions
+         * 5. props on the scene the player is in for actions
+         * 6. recursively check for objects on objects at each of the above steps
          */
 
         let executableInputEvents = [];
@@ -67,13 +66,8 @@ class StateMachine {
             }
         }
 
-        // 1. Check input events on items in the player's inventory
-        let playerInventory = this.adventure.players.find(p => p.name === message.player).inventory;
-        for (let i of playerInventory) {
-            let {inputEvents, generalEvents} = filterEvents(i.events);
-            executableInputEvents.concat(inputEvents);
-            executableGeneralEvents.concat(inputEvents);
-        }
+        // 1. Check player for relevant actions
+        
 
         // 6. Execute the events
         // 7. Lastly, build a message list of what happened for the current player, and another for the other players
