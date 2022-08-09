@@ -1,0 +1,338 @@
+[
+    {
+        "verb": "get",
+        "cases": [
+            {
+                "if": true,
+                "then": {
+                    "message": "Taken.",
+                    "broadcast": {"concat": [{"variable": "message.player"}," took the ",{ "variable": "message.noun" },"."]},
+                    "move_props": [
+                        {
+                            "prop_name": {"variable": "message.noun"},
+                            "target_name": {"variable": "message.player"}
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "verb": "drop",
+        "cases": [
+            {
+                "if": true,
+                "then": {
+                    "message": "Dropped.",
+                    "broadcast": {"concat": [{"variable": "message.player"}," dropped the ",{"variable": "message.noun"},"."]},
+                    "move_props": [
+                        {
+                            "prop_name": {"variable": "message.player"},
+                            "target_name": {"variable": "message.noun"}
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "verb": "throw",
+        "cases": [
+            {
+                "if": true,
+                "then": {
+                    "message": "Thrown.",
+                    "broadcast": {"concat": [{"variable": "message.player"}," threw the ",{"variable": "message.noun"},"."]},
+                    "move_props": [
+                        {
+                            "prop_name": {"variable": "message.player"},
+                            "target_name": {"variable": "message.noun"}
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "verb": "go",
+        "cases": [
+            {
+                "if": {"==": [{"variable":"message.noun.state"}, "open"]},
+                "then": {
+                    "message": {"variable": "message.noun.scene.description"},
+                    "broadcast": {"concat": [{"variable": "message.player"}," went ",{"variable": "message.noun"},"."]},
+                    "move_props": [
+                        {
+                            "prop_name": {"variable": "message.player"},
+                            "target_name": {"variable": "message.noun.scene"}
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "verb": "push",
+        "cases": [
+            {
+                "if": true,
+                "then": {
+                    "message": {"concat":["You pushed the ",{"variable":"message.noun"},"."]},
+                    "broadcast": {"concat": [{"variable": "message.player"}," pushed the ",{"variable": "message.noun"},"."]},
+                    "update_prop_state": [
+                        {
+                            "prop_name": {"variable": "message.noun"},
+                            "target_name": "pushed"
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "verb": "pull",
+        "cases": [
+            {
+                "if": true,
+                "then": {
+                    "message": {"concat":["You pulled the ",{"variable":"message.noun"},"."]},
+                    "broadcast": {"concat": [{"variable": "message.player"}," pulled the ",{"variable": "message.noun"},"."]},
+                    "update_prop_state": [
+                        {
+                            "prop_name": {"variable": "message.noun"},
+                            "target_name": "pull"
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "verb": "open",
+        "cases": [
+            {
+                "if": true,
+                "then": {
+                    "message": {"concat":["You open the ",{"variable":"message.noun"},"."]},
+                    "broadcast": {"concat": [{"variable": "message.player"}," opened the ",{"variable": "message.noun"},"."]},
+                    "update_prop_state": [
+                        {
+                            "prop_name": {"variable": "message.noun"},
+                            "state": "pull"
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "verb": "close",
+        "cases": [
+            {
+                "if": {"==": [{"variable":"message.noun.state"}, "open"]},
+                "then": {
+                    "message": {"concat": ["You close the ",{"variable":"message.noun"},"."]},
+                    "broadcast": {"concat": [{"variable": "message.player"}," closed the ",{ "variable": "message.noun" },"."]},
+                    "update_prop_state": [
+                        {
+                            "prop_name": {"variable": "message.noun"},
+                            "state": "closed"
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "verb": "lock",
+        "cases": [
+            {
+                "if": {"==": [{"variable":"message.noun.state"}, "closed"]},
+                "then": {
+                    "message": {"concat": ["You locked the ",{"variable":"message.noun"},"."]},
+                    "broadcast": {"concat": [{"variable": "message.player"}," locked the ",{ "variable": "message.noun" },"."]},
+                    "update_prop_state": [
+                        {
+                            "prop_name": {"variable": "message.noun"},
+                            "state": "locked"
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "verb": "unlock",
+        "cases": [
+            {
+                "if": {"==": [{"variable":"message.noun.state"}, "locked"]},
+                "then": {
+                    "message": {"concat": ["You unlocked the ",{"variable":"message.noun"},"."]},
+                    "broadcast": {"concat": [{"variable": "message.player"}," unlocked the ",{ "variable": "message.noun" },"."]},
+                    "update_prop_state": [
+                        {
+                            "prop_name": {"variable": "message.noun"},
+                            "state": "closed"
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "verb": "move",
+        "cases": [
+            {
+                "if": true,
+                "then": {
+                    "message": {"concat": ["You moved the ",{"variable":"message.noun"},"."]},
+                    "broadcast": {"concat": [{"variable": "message.player"}," moved the ",{ "variable": "message.noun" },"."]}
+                }
+            }
+        ]
+    },
+    {
+        "verb": "turn",
+        "cases": [
+            {
+                "if": true,
+                "then": {
+                    "message": {"concat": ["You turn the ",{"variable":"message.noun"},"."]},
+                    "broadcast": {"concat": [{"variable": "message.player"}," turn the ",{ "variable": "message.noun" },"."]}
+                }
+            }
+        ]
+    },
+    {
+        "verb": "use",
+        "cases": [
+            {
+                "if": true,
+                "then": {
+                    "message": {"concat": ["You used the ",{"variable":"message.noun"},"."]},
+                    "broadcast": {"concat": [{"variable": "message.player"}," used the ",{ "variable": "message.noun" },"."]}
+                }
+            }
+        ]
+    },
+    {
+        "verb": "cut",
+        "cases": [
+            {
+                "if": true,
+                "then": {
+                    "message": {"concat": ["You cut the ",{"variable":"message.noun"},"."]},
+                    "broadcast": {"concat": [{"variable": "message.player"}," cut the ",{ "variable": "message.noun" },"."]}
+                }
+            }
+        ]
+    },
+    {
+        "verb": "strike",
+        "cases": [
+            {
+                "if": true,
+                "then": {
+                    "message": {"concat": ["You struck the ",{"variable":"message.noun"},"."]},
+                    "broadcast": {"concat": [{"variable": "message.player"}," struck the ",{ "variable": "message.noun" },"."]}
+                }
+            }
+        ]
+    },
+    {
+        "verb": "light",
+        "cases": [
+            {
+                "if": true,
+                "then": {
+                    "message": {"concat": ["You lit the ",{"variable":"message.noun"},"."]},
+                    "broadcast": {"concat": [{"variable": "message.player"}," lit the ",{ "variable": "message.noun" },"."]}
+                }
+            }
+        ]
+    },
+    {
+        "verb": "eat",
+        "cases": [
+            {
+                "if": true,
+                "then": {
+                    "message": {"concat": ["You ate the ",{"variable":"message.noun"},"."]},
+                    "broadcast": {"concat": [{"variable": "message.player"}," ate the ",{ "variable": "message.noun" },"."]}
+                },
+                "move_props": [
+                    {
+                        "prop_name": {"variable": "message.noun"},
+                        "target_name": null
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "verb": "drink",
+        "cases": [
+            {
+                "if": true,
+                "then": {
+                    "message": {"concat": ["You drink the ",{"variable":"message.noun"},"."]},
+                    "broadcast": {"concat": [{"variable": "message.player"}," drink the ",{ "variable": "message.noun" },"."]}
+                },
+                "update_prop_state": [
+                    {
+                        "prop_name": {"variable": "message.noun"},
+                        "state": "empty"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "verb": "smell",
+        "cases": [
+            {
+                "if": true,
+                "then": {
+                    "message": {"concat": ["You smell the ",{"variable":"message.noun"},". ",{"variable":"message.noun.smell"}]},
+                    "broadcast": {"concat": [{"variable": "message.player"}," smelled the ",{ "variable": "message.noun" },"."]}
+                }
+            }
+        ]
+    },
+    {
+        "verb": "examine",
+        "cases": [
+            {
+                "if": true,
+                "then": {
+                    "message": {"concat": ["You examine the ",{"variable":"message.noun"},". ",{"variable":"message.noun.description"}]},
+                    "broadcast": {"concat": [{"variable": "message.player"}," examined the ",{ "variable": "message.noun" },"."]}
+                }
+            }
+        ]
+    },
+    {
+        "verb": "weigh",
+        "cases": [
+            {
+                "if": {"/": [{"variable": "message.player.inventory.size"},{"variable": "message.noun.size"}]},
+                "then": {
+                    "message": {"concat": ["If you weren't carrying anything else, you think you could carry about ",{"/":[{"variable": "message.player.inventory.size"},{"variable": "message.noun.size"}]}," of these."]},
+                    "broadcast": {"concat": [{"variable":"message.player"}," tests their strength against the ",{"variable":"message.noun"},"."]}
+                }
+            }
+        ]
+    },
+    {
+        "verb": "wear",
+        "cases": [
+            {
+                "if": true,
+                "then": {
+                    "message": {"concat": ["You put the ",{"variable":"message.noun"}," on."]},
+                    "broadcast": {"concat": [{"variable":"message.player"}," put the ",{"variable":"message.noun"}," on."]}
+                }
+            }
+        ]
+    }
+]

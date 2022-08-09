@@ -6,7 +6,7 @@ describe("Action object", () => {
     let id = "12";
 
     beforeEach(() => {
-        action = new Action(id);
+        action = new Action(id, "go", [1,2]);
     });
 
     test("should create an Action", () => {
@@ -19,9 +19,21 @@ describe("Action object", () => {
         expect(() => new Action(null)).toThrow();
     });
 
+    test("should require a verb", () => {
+        expect(() => new Action(id)).toThrow();
+        expect(() => new Action(id, null)).toThrow();
+    });
+
+    test("should require an array of cases", () => {
+        expect(() => new Action(id, "go")).toThrow();
+        expect(() => new Action(id, "go", null)).toThrow();
+    });
+
     test("create() should create an Action", () => {
         action = Action.create({
-            id: id
+            id: id,
+            verb: "go",
+            cases: [1,2]
         });
         expect(action).toBeTruthy();
         expect(action).toBeInstanceOf(Action);

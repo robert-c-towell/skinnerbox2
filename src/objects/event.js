@@ -31,7 +31,7 @@ class Event {
         return new Event(e.id, e.type, e.conditions, e.effects);
     }
 
-    getSettableProps () {
+    getSettableVariables () {
         return {};
     }
 };

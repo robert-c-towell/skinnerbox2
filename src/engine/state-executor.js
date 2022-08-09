@@ -12,7 +12,7 @@ class StateExecutor extends StateExecutorInterface {
 
     setProperty (object, value) {
         console.log("test");
-        // call getSettableProps on an object to know what can be modified
+        // call getSettableVariables on an object to know what can be modified
         throw new Error("not implemented");
     }
 }

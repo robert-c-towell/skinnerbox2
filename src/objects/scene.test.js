@@ -1,5 +1,5 @@
 import Scene from "./scene.js";
-import Item from "./item.js";
+import Prop from "./prop.js";
 // TODO: use fake classes to remove some of the boiler plate
 import { v4 as uuidv4 } from 'uuid';
 
@@ -39,18 +39,19 @@ describe("Scene object", () => {
     test("create() should turn json into a Scene", () => {
         let json = {
             id: uuidv4(),
-            name: "item",
+            name: "prop",
             state: state.id,
             states: [state],
-            events: null
+            exits: [],
+            events: [],
         };
-        let item = Scene.create(json)
-        expect(item).toBeTruthy();
-        expect(item).toBeInstanceOf(Scene);
+        let prop = Scene.create(json)
+        expect(prop).toBeTruthy();
+        expect(prop).toBeInstanceOf(Scene);
     });
 
-    test("getSettableProps should return an object subset of the Scene", () => {
-        let props = scene.getSettableProps();
+    test("getSettableVariables should return an object subset of the Scene", () => {
+        let props = scene.getSettableVariables();
         expect(props).toBeTruthy();
         expect(scene).toMatchObject(props);
     });

@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
-class Item {
-    constructor(id = uuidv4(), name, size = 1, state, states, events = null) {
+class Prop {
+    constructor(id = uuidv4(), name, parent, children, state, states) {
         if (!name) {
             throw new Error(`Name is a required parameter.`);
         } else if (name && typeof name !== "string") {
@@ -19,21 +19,21 @@ class Item {
         }
         this.id = id;
         this.name = name;
-        this.size = size;
+        this.parent = parent;
+        this.children = children;
         this.state = state;
         this.states = states;
-        this.events = events;
     }
 
     static create(i) {
-        return new Item(i.id, i.name, i.size, i.state, i.states, i.events);
+        return new Prop(i.id, i.name, i.parent, i.children, i.state, i.states);
     }
 
-    getSettableProps () {
+    getSettableVariables () {
         let props = structuredClone(this);
         delete props.id;
         return props;
     }
 }
 
-export {Item as default};
+export {Prop as default};

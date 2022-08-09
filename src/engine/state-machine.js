@@ -1,5 +1,5 @@
 import Event, {EventTypes} from "./../objects/event.js";
-import Item from "./../objects/item.js";
+import Prop from "./../objects/prop.js";
 import Scene from "./../objects/scene.js";
 
 import StateExecutor from "./state-executor.js";

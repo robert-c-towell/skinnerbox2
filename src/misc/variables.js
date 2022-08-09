@@ -9,7 +9,7 @@ const variables = {
     scenes: [
 
     ],
-    items: [
+    props: [
 
     ],
     

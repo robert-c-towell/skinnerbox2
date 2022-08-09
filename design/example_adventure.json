@@ -5,57 +5,88 @@
         "playerMaximum": 2,
         "chatDistance": "INFINITE"
     },
-    "events": [
+    "default_actions": [
         {
-            "id": "wave 1",
-            "type": "INPUT",
-            "conditions": [
-                ["command","wave"],
-                "&&",
-                [">", ["variable","player.scene.number_of_players"], 1]
-            ],
-            "effects": [
-                ["+=",["variable","global.timesWaved"], 1],
-                ["message", ["concat","You wave to ",["variable","player.name"],". They wave back."]],
-                ["broadcastMessage", ["concat",["variable","player.name"]," waves at you. You wave back."]]
-            ]
-        },
-        {
-            "id": "wave 2",
-            "type": "INPUT",
-            "conditions": [
-                ["command","wave"], "&&",
-                ["==", "player.scene.number_of_players", 1]
-            ],
-            "effects": [
-                ["+=",["variable","global.timesWaved"], 1],
-                ["message", "You wave to an empty scene. You feel kind of silly about it."]
+            "id": "wave",
+            "verb": "wave",
+            "cases": [
+                {
+                    "if": true,
+                    "then": {
+                        "message": {"concat":["You wave at ",{"variable":"message.noun"},"."]},
+                        "broadcast": {"concat": [{"variable": "message.player"}," waves at you."]}
+                    }
+                }
             ]
         }
     ],
-    "items": [
+    "override_actions": [
         {
-            "id": "Stone of Skipping",
+            "id": "close_jack_box",
+            "verb": "use",
+            "cases": [
+                {
+                    "if": {"==":[{"variable":"message.noun"}, "closed"]},
+                    "then": {
+                        "message": "Carnival music plays, the lid springs up and Jack pops out!",
+                        "broadcast": {"concat": [{"variable": "message.player"}," cranks a box. Carnival music plays, the lid springs up and Jack pops out!"]},
+                        "update_prop_state": [
+                            {
+                                "prop_name": {"variable": "message.noun"},
+                                "state": "open"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "if": {"==":[{"variable":"message.noun"}, "open"]},
+                    "then": {
+                        "message": "Cranking the box does nothing while it's open.",
+                        "broadcast": {"concat": [{"variable": "message.player"}," cranks the open box."]}
+                    }
+                }
+            ]
+        },
+        {
+            "id": "use_jack_box",
+            "verb": "use",
+            "cases": [
+                {
+                    "if": {"==":[{"variable":"message.noun"}, "open"]},
+                    "then": {
+                        "message": "Stuffing Jack back in the box is harder than you thought. He's in there, though.",
+                        "broadcast": {"concat": ["With some difficulty, ",{"variable": "message.player"}," stuffs Jack back in its box."]},
+                        "update_prop_state": [
+                            {
+                                "prop_name": {"variable": "message.noun"},
+                                "state": "closed"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ],
+    "props": [
+        {
+            "id": "sstone",
             "name": "Stone of Skipping",
-            "size": 1,
-            "inventory": null,
+            "parent":"Landing",
+            "children": [],
             "state": "default",
             "states": [
                 {
                     "id": "default",
                     "description": "A perfectly round grey stone, smooth as butter, and fairly light."
                 }
-            ]
+            ],
+            "actions": ["get","drop","throw"]
         },
         {
             "id": "Old Chest",
             "name": "Old Chest",
-            "size": 8,
-            "inventory": {
-                "size": 10,
-                "inventoryRules": [],
-                "items": ["Trusty Jack"]
-            },
+            "parent":"Attic",
+            "children": [],
             "state": "locked",
             "states": [
                 {
@@ -63,149 +94,85 @@
                     "description": "A sturdy, worn trunk with a big brass lock. Scratches surround the latch."
                 },
                 {
-                    "id": "unlocked",
+                    "id": "close",
                     "description": "A sturdy, worn trunk. Scratches surround the latch."
-                }
-            ],
-            "events": [
-                {
-                    "id": "chest 1",
-                    "type": "INPUT",
-                    "conditions": [
-                        ["command","open chest"],
-                        "&&",
-                        ["==",["variable","item.state"],"locked"]
-                    ],
-                    "effects": [
-                        ["message", "The chest is locked."]
-                    ]
                 },
                 {
-                    "id": "chest 2",
-                    "type": "INPUT",
-                    "conditions": [
-                        ["command","open chest"],
-                        "&&",
-                        ["==",["variable","item.state"],"unlocked"]
-                    ],
-                    "effects": [
-                        ["message", ["concat","The chest contains ",["variable","item.inventory.items"], "."]]
-                    ]
+                    "id": "open",
+                    "description": "A sturdy, worn trunk lies open."
                 }
-            ]
+            ],
+            "actions": ["open", "close", "lock", "unlock"]
         },
         {
             "id": "Trusty Jack",
             "name": "Trusty Jack",
-            "size": 1,
-            "inventory": null,
-            "state": "closed",
+            "parent":"Old Chest",
+            "children": [],
+            "state": "close",
             "states": [
                 {
-                    "id": "closed",
+                    "id": "close",
                     "description": "A small box with a crank on the side."
                 },
                 {
-                    "id": "popped",
+                    "id": "open",
                     "description": "A small box with a crank on the side. The lid is open and Jack flops to the side while you inspect it."
                 }
             ],
-            "events": [
-                {
-                    "id": "box crank 1",
-                    "type": "INPUT",
-                    "conditions": [
-                        ["command","crank box"],
-                        "&&",
-                        ["==",["variable","item.state"],"closed"]
-                    ],
-                    "effects": [
-                        ["=",["variable","item.state"],"popped"],
-                        ["message","Carnival music plays, the lid springs up and Jack pops out!"],
-                        ["broadcastMessage", ["concat",["variable","player.name"]," cranks a box. Carnival music plays, the lid springs up and Jack pops out!"]]
-                    ]
-                },
-                {
-                    "id": "box crank 2",
-                    "type": "INPUT",
-                    "conditions": [
-                        ["command","crank box"],
-                        "&&",
-                        ["==",["variable","item.state"],"popped"]
-                    ],
-                    "effects": [
-                        ["message", "The box is already cranked."]
-                    ]
-                },
-                {
-                    "id": "box close",
-                    "type": "INPUT",
-                    "conditions": [
-                        ["command","close box"],
-                        "&&",
-                        ["==",["variable","item.state"],"popped"]
-                    ],
-                    "effects": [
-                        ["=",["variable","item.state"],"closed"],
-                        ["message", "Stuffing Jack back in the box is harder than you thought. He's in there, though."]
-                    ]
-                }
-            ]
+            "actions": ["get", "drop", "throw", "crank", "close"],
+            "override_actions": {
+                "close": "close_jack_box",
+                "use": "use_jack_box"
+            }
         }
     ],
     "scenes": [
         {
             "id": "Attic",
             "name": "Attic",
-            "inventory": {
-                "inventoryRules": [],
-                "items": ["Old Chest"]
-            },
+            "parent": null,
+            "children":["Old Chest"],
             "state": "default",
             "states": [
                 {
                     "id": "default",
                     "description": "A dusty attic with a small round window."
                 }
-            ]
+            ],
+            "actions":[]
         },
         {
             "id": "Landing",
             "name": "Landing",
-            "inventory": {
-                "inventoryRules": [
-                    {
-                        "size": 50
-                    }
-                ],
-                "items": []
-            },
+            "parent": null,
+            "children": ["sstone"],
             "state": "default",
             "states": [
                 {
                     "id": "default",
                     "description": "A landing at the top of a long set of stairs. A hallway stretches to your left and right, but something compels you not to go down them."
                 }
-            ]
+            ],
+            "actions":[]
         }
     ],
     "players": [
         {
+            "id":"player1",
             "name": "jared",
-            "hp": 100,
-            "inventory": {
-                "items": []
-            }
+            "at": "Landing",
+            "children": [],
+            "inventory": [],
+            "actions": ["wave"]
         },
         {
+            "id":"player2",
             "name": "zeus",
-            "hp": 100,
-            "inventroy": {
-                "items": []
-            }
+            "at": "Landing",
+            "children": [],
+            "inventroy": [],
+            "actions": ["wave"]
         }
-    ],
-    "variables": {
-        "timesWaved": 0
-    }
+    ]
 }

@@ -47,8 +47,8 @@ describe("Event object", () => {
         expect(event).toBeInstanceOf(Event);
     });
 
-    test("getSettableProps() should return an empty object", () => {
-        let props = event.getSettableProps();
+    test("getSettableVariables() should return an empty object", () => {
+        let props = event.getSettableVariables();
         expect(props).toBeTruthy();
         expect(event).toMatchObject(props);
         expect(props).toMatchObject({});

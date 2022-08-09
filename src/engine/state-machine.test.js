@@ -1,12 +1,12 @@
 import Event, {EventTypes} from "./../objects/event.js";
-import Item from "./../objects/item.js";
+import Prop from "./../objects/prop.js";
 import Scene from "./../objects/scene.js";
 //import Player from "./../objects/player.js";
 //import Settings from "./objects/settings.js";
 
 import TransformAdventure from "../libs/transform-adventure.js";
 import StateMachine from "./state-machine.js";
-import adventure from "../../example_adventure.json";
+import adventure from "../../design/example_adventure.json";
 
 describe("StateMachine", () => {
     let stateMachine;
@@ -14,7 +14,7 @@ describe("StateMachine", () => {
     beforeAll(() => {
         let Player = {};
         let Settings = {};
-        let transform = new TransformAdventure(Event, Item, Scene, Player, Settings);
+        let transform = new TransformAdventure(Event, Prop, Scene, Player, Settings);
         let a = transform.toObjects(adventure);
         stateMachine = new StateMachine(a);
     })

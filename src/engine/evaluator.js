@@ -65,7 +65,7 @@ const Functions = {
     command: (a, input) => {throw new Error("not implemented")},
 }
 
-class Parser {
+class Evaluator {
     constructor(StateExecutor) {
         if (!(StateExecutor instanceof StateExecutorInterface)) {
             throw new Error(`Parameter StateExecutor must be of type StateExecutorInterface`);
@@ -111,4 +111,4 @@ function exists(a) {
     return a != undefined && a != null && a != false;
 }
 
-export { Parser as default };
+export { Evaluator as default };

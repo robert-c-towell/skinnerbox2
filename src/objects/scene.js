@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 class Scene {
-    constructor(id = uuidv4(), name, state, states, events = null) {
+    constructor(id = uuidv4(), name, state, states, exits = [], events = []) {
         if (!name) {
             throw new Error(`Name is a required parameter.`);
         } else if (name && typeof name !== "string") {
@@ -21,14 +21,15 @@ class Scene {
         this.name = name;
         this.state = state;
         this.states = states;
+        this.exits = exits;
         this.events = events;
     }
 
     static create(i) {
-        return new Scene(i.id, i.name, i.state, i.states, i.events);
+        return new Scene(i.id, i.name, i.state, i.states, i.exits, i.events);
     }
 
-    getSettableProps () {
+    getSettableVariables () {
         let props = structuredClone(this);
 
         delete props.id;

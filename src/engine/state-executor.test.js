@@ -1,14 +1,14 @@
 import StateExecutorInterface from "./state-executor-interface.js";
 import StateExecutor from "./state-executor-interface.js";
 
-import adventure from "../../example_adventure.json";
+import adventure from "../../design/example_adventure.json";
 
 describe("StateExecutor", () => {
     let stateExecutor;
 
     beforeAll(() => {
         stateExecutor = new StateExecutor(adventure);
-    })
+    });
 
     test("constructor() should create an StateExecutor", () => {
         expect(stateExecutor).toBeTruthy();

@@ -1,16 +1,16 @@
 class TransformAdventure {
-    constructor(Event, Item, Scene, Player, Settings) {
+    constructor(Event, Prop, Scene, Player, Settings) {
         this.Event = Event;
-        this.Item = Item;
+        this.Prop = Prop;
         this.Scene = Scene;
         this.Player = Player;
         this.Settings = Settings;
     }
 
-    toDocument (events, items, scenes, players, settings) {
+    toDocument (events, props, scenes, players, settings) {
         let adventure = {
             events: [...events] || [],
-            items: [...items] || [],
+            props: [...props] || [],
             scenes: [...scenes] || [],
             players: [...players] || [],
             settings: settings
@@ -22,8 +22,8 @@ class TransformAdventure {
     toObjects(adventure) {
         let events = adventure.events.map((e) => this.Event.create(e));
 
-        let items = adventure.items.map((i) => {
-            i = this.Item.create(i);
+        let props = adventure.props.map((i) => {
+            i = this.Prop.create(i);
             return i;
         });
 
@@ -36,7 +36,7 @@ class TransformAdventure {
 
         let objects = {
             events: events,
-            items: items,
+            props: props,
             scenes: scenes,
             //players: players,
             //settings: settings
