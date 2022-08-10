@@ -17,74 +17,78 @@ describe("Evaluator", () => {
         expect(() => new Evaluator()).toThrow();
     });
 
-    test("parse() should require conditions and it should be an array", () => {
-        expect(() => evaluator.parse()).toThrow();
-        expect(() => evaluator.parse("string")).toThrow();
-        expect(() => evaluator.parse({ a: 1 })).toThrow();
-        expect(() => evaluator.parse([Op["!"]])).toThrow();
-        expect(() => evaluator.parse([Op["!"], false], {})).toThrow();
-        expect(() => evaluator.parse([Op["!"], false], 10)).toThrow();
+    test("evaluate() should require an object with one key from the op list", () => {
+        expect(() => evaluator.evaluate()).toThrow();
+        expect(() => evaluator.evaluate("string")).toThrow();
+        expect(() => evaluator.evaluate([Op["!"]])).toThrow();
+        expect(() => evaluator.evaluate([Op["!"], false])).toThrow();
+        expect(() => evaluator.evaluate({ a: 1 })).toThrow();
     });
 
-    test("parse() should handle comparison operators", () => {
+    test("evaluate() should handle comparison operators", () => {
         // Truthy
-        expect(evaluator.parse([1,Op["=="],1])).toBeTruthy();
-        expect(evaluator.parse(["a",Op["=="],"a"])).toBeTruthy();
-        expect(evaluator.parse([1,Op["<"],10])).toBeTruthy();
-        expect(evaluator.parse([5,Op[">"],1])).toBeTruthy();
-        expect(evaluator.parse([1,Op["<="],1])).toBeTruthy();
-        expect(evaluator.parse([1,Op[">="],1])).toBeTruthy();
-        expect(evaluator.parse(["start",Op["!="],"end"])).toBeTruthy();
+        expect(evaluator.evaluate({[Op["=="]]: [1,1]})).toBeTruthy();
+        expect(evaluator.evaluate({[Op["=="]]: ["a","a"]})).toBeTruthy();
+        expect(evaluator.evaluate({[Op["<"]]: [1, 10]})).toBeTruthy();
+        expect(evaluator.evaluate({[Op[">"]]: [5,1]})).toBeTruthy();
+        expect(evaluator.evaluate({[Op["<="]]: [1,1]})).toBeTruthy();
+        expect(evaluator.evaluate({[Op[">="]]: [1,1]})).toBeTruthy();
+        expect(evaluator.evaluate({[Op["!="]]: ["start","end"]})).toBeTruthy();
+        expect(evaluator.evaluate({[Op["=="]]: [{[Op.variable]: ["message.noun.state"]},"closed"]})).toBeTruthy();
 
         // Falsey
-        expect(evaluator.parse([1,Op["=="],2])).toBeFalsy();
-        expect(evaluator.parse(["a",Op["=="],"b"])).toBeFalsy();
-        expect(evaluator.parse([10,Op["<"],1])).toBeFalsy();
-        expect(evaluator.parse([1,Op[">"],5])).toBeFalsy();
-        expect(evaluator.parse([2,Op["<="],1])).toBeFalsy();
-        expect(evaluator.parse([0,Op[">="],1])).toBeFalsy();
-        expect(evaluator.parse(["start",Op["!="],"start"])).toBeFalsy();
+        expect(evaluator.evaluate({[Op["=="]]: [1,2]})).toBeFalsy();
+        expect(evaluator.evaluate({[Op["=="]]: ["a","b"]})).toBeFalsy();
+        expect(evaluator.evaluate({[Op["<"]]: [10,1]})).toBeFalsy();
+        expect(evaluator.evaluate({[Op[">"]]: [1,5]})).toBeFalsy();
+        expect(evaluator.evaluate({[Op["<="]]: [2,1]})).toBeFalsy();
+        expect(evaluator.evaluate({[Op[">="]]: [0,1]})).toBeFalsy();
+        expect(evaluator.evaluate({[Op["!="]]: ["start","start"]})).toBeFalsy();
     });
 
-    test("parse() should handle math operators", () => {
+    test("evaluate() should handle math operators", () => {
         // Truthy
-        expect(evaluator.parse([1,Op["+"],1])).toEqual(2);
-        expect(evaluator.parse(["1",Op["-"],"1"])).toEqual(0);
-        expect(evaluator.parse([6,Op["/"],3])).toEqual(2);
-        expect(evaluator.parse([5,Op["*"],1])).toEqual(5);
-        expect(evaluator.parse([10,Op["%"],12])).toEqual(10);
-        expect(evaluator.parse([10,Op["^"],2])).toEqual(100);
-        expect(evaluator.parse([100,Op.log,])).toEqual(4.61);
+        expect(evaluator.evaluate({[Op["+"]]: [1,1]})).toEqual(2);
+        expect(evaluator.evaluate({[Op["-"]]: ["1","1"]})).toEqual(0);
+        expect(evaluator.evaluate({[Op["/"]]: [6,3]})).toEqual(2);
+        expect(evaluator.evaluate({[Op["*"]]: [5,1]})).toEqual(5);
+        expect(evaluator.evaluate({[Op["%"]]: [10,12]})).toEqual(10);
+        expect(evaluator.evaluate({[Op["^"]]: [10,2]})).toEqual(100);
+        expect(evaluator.evaluate({[Op.log]: [100]})).toEqual(4.61);
     });
 
-    test("parse() exists", () => {
+    test("evaluate() exists", () => {
         // Truthy
-        expect(evaluator.parse(["name",Op.exists])).toBeTruthy();
-        expect(evaluator.parse([Op["!"],[Op.exists, null]])).toBeTruthy();
+        expect(evaluator.evaluate({[Op.exists]: ["name"]})).toBeTruthy();
+        expect(evaluator.evaluate({[Op["!"]]: {[Op.exists]: null}})).toBeTruthy();
         // Falsey
-        expect(evaluator.parse([null,Op.exists])).toBeFalsy();
-        expect(evaluator.parse([Op["!"],["name",Op.exists]])).toBeFalsy();
+        expect(evaluator.evaluate({[Op.exists]: [null]})).toBeFalsy();
+        expect(evaluator.evaluate({[Op["!"]]: {[Op.exists]: ["name"]}})).toBeFalsy();
     });
 
-    test("parse() boolean logic operators", () => {
+    test("evaluate() boolean logic operators", () => {
         // Truthy
-        expect(evaluator.parse([Op["||"],false, true])).toBeTruthy();
-        expect(evaluator.parse([[1,Op["=="],1],Op["||"],[1,Op["=="],2]])).toBeTruthy();
+        expect(evaluator.evaluate({[Op["||"]]: [false, true]})).toBeTruthy();
+        expect(evaluator.evaluate({
+            [Op["||"]]: [
+                {[Op["=="]]: [1,1]},
+                {[Op["=="]]: [1,2]}]
+            })).toBeTruthy();
         // Falsey
-        expect(evaluator.parse([[1,Op["=="],1],Op["&&"],[1,Op["=="],2]])).toBeFalsy();
+        expect(evaluator.evaluate({[Op["&&"]]: [
+            {[Op["=="]]: [1,1]},
+            {[Op["=="]]: [1,2]}]
+        })).toBeFalsy();
     });
 
-    test("parse() concat", () => {
-        expect(evaluator.parse(["concat","This is"," a test"])).toEqual("This is a test");
-        expect(evaluator.parse(["concat","This ","is ","a ","test"])).toEqual("This is a test");
-        expect(evaluator.parse(["concat","You have ",[Op["+"],2,1]," ammo."])).toEqual("You have 3 ammo.");
+    test("evaluate() concat", () => {
+        expect(evaluator.evaluate({[Op.concat]: ["This is"," a test"]})).toEqual("This is a test");
+        expect(evaluator.evaluate({[Op.concat]: ["This ","is ","a ","test"]})).toEqual("This is a test");
+        expect(evaluator.evaluate({[Op.concat]: ["You have ",{[Op["+"]]: [2,1]}," ammo."]})).toEqual("You have 3 ammo.");
     });
 
-    test("parse() funcs", () => {
-        expect(evaluator.parse(["message","This is a test"])).toEqual({message: "This is a test"});
-        expect(evaluator.parse(["broadcast","This is a test"])).toEqual({broadcast: "This is a test"});
-        expect(evaluator.parse(["contains","This is a test", "This"])).toBeTruthy();
-        expect(evaluator.parse(["variable","This is a test"])).toBeTruthy();
-        expect(evaluator.parse(["command","go north"], "go north")).toBeTruthy();
+    test("evaluate() funcs", () => {
+        expect(evaluator.evaluate({[Op.contains]: ["This is a test", "This"]})).toBeTruthy();
+        expect(evaluator.evaluate({[Op.variable]: ["This is a test"]})).toBeTruthy();
     });
 });

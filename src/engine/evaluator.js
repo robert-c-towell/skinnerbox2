@@ -24,18 +24,14 @@ export const Operators = {
     "^": "^",
     log: "log",
     concat: "concat",
-    message: "message",
-    broadcast: "broadcast",
     contains: "contains",
     exists: "exists",
-    variable: "variable",
-    command: "command",
+    variable: "variable"
 }
 
-const Functions = {
+const EvaluationFuncs = {
     "||": (...args) => args.reduce((a,b) => {return a || b}),
     "&&": (...args) => args.reduce((a,b) => {return a && b}),
-    "=": setValue,
     "==": (a,b) => a == b,
     "!=": (a,b) => a != b,
     ">": (a,b) => a > b,
@@ -57,12 +53,9 @@ const Functions = {
     "^": (a,b) => Math.pow(a,b),
     log: (a) => Math.round(Math.log(a) * 100) / 100,
     concat: (...args) => args.join(""),
-    message: (a) => ({ message: a }),
-    broadcast: (a) => ({ broadcast: a }),
     contains: (a,b) => a.includes(b),
     exists: exists,
     variable: (a,b) => {throw new Error("not implemented")},
-    command: (a, input) => {throw new Error("not implemented")},
 }
 
 class Evaluator {
@@ -73,39 +66,35 @@ class Evaluator {
         this.StateExecutor = StateExecutor;
     }
 
-    parse(expression, input) {
-        if (!expression || !Array.isArray(expression)) {
-            throw new Error(`Parameter expression must be an array.`);
-        } else if (expression.length < 2) {
-            throw new Error(`Parameter expression must contain at least 2 elements`);
-        } else if (input && typeof input != "string") {
-            throw new Error(`Parameter input must be a string.`);
+    evaluate(expression) {
+        if (!expression || typeof expression !== "object") {
+            throw new Error(`Parameter expression must be an object, found ${typeof expression} instead.`);
         }
 
-        let op;
+        let op = Object.keys(expression)[0];
+        if (!Object.values(Operators).includes(op)) {
+            throw new Error(`Unexpected operator ${op}.`);
+        }
+
         let values = [];
 
-        for (let c of expression) {
-            if (c && Array.isArray(c)) {
-                values.push(this.parse(c));
-            } else if (Object.values(Operators).includes(c)) {
-                op = c;
-            } else {
-                values.push(c);
+        if (expression[op] && typeof expression[op] === "object" && !Array.isArray(expression[op])) {
+            values.push(this.evaluate(expression[op]));
+        } else if (Array.isArray(expression[op])) {
+            for (let v of expression[op]) {
+                if (v && typeof v === "object") {
+                    values.push(this.evaluate(v));
+                } else {
+                    values.push(v);
+                }
             }
+        } else {
+            values = [expression[op]];
         }
 
-        if (op === "command") {
-            return Functions[op](...values, input);
-        } else {
-            return Functions[op](...values);
-        }
+        return EvaluationFuncs[op](...values);
     }
 };
-
-function setValue(a,b) {
-    this.StateExecutor.setProperty(a,b);
-}
 
 function exists(a) {
     return a != undefined && a != null && a != false;

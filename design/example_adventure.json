@@ -26,7 +26,7 @@
             "verb": "use",
             "cases": [
                 {
-                    "if": {"==":[{"variable":"message.noun"}, "closed"]},
+                    "if": {"==":[{"variable":"message.noun.state"}, "closed"]},
                     "then": {
                         "message": "Carnival music plays, the lid springs up and Jack pops out!",
                         "broadcast": {"concat": [{"variable": "message.player"}," cranks a box. Carnival music plays, the lid springs up and Jack pops out!"]},
