@@ -1,6 +1,6 @@
-import StateExecutorInterface from "./state-executor-interface.js";
+import ExecutorInterface from "./executor-interface.js";
 
-class StateExecutor extends StateExecutorInterface {
+class Executor extends ExecutorInterface {
     constructor(adventure) {
         super(adventure);
     }
@@ -17,4 +17,4 @@ class StateExecutor extends StateExecutorInterface {
     }
 }
 
-export {StateExecutor as default};
+export {Executor as default};

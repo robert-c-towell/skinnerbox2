@@ -1,4 +1,4 @@
-import StateExecutorInterface from "./state-executor-interface.js";
+import ExecutorInterface from "./executor-interface.js";
 
 export const Operators = {
     "||": "||",
@@ -59,11 +59,11 @@ const EvaluationFuncs = {
 }
 
 class Evaluator {
-    constructor(StateExecutor) {
-        if (!(StateExecutor instanceof StateExecutorInterface)) {
-            throw new Error(`Parameter StateExecutor must be of type StateExecutorInterface`);
+    constructor(Executor) {
+        if (!(Executor instanceof ExecutorInterface)) {
+            throw new Error(`Parameter Executor must be of type ExecutorInterface`);
         }
-        this.StateExecutor = StateExecutor;
+        this.Executor = Executor;
     }
 
     evaluate(expression) {

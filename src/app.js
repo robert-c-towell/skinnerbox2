@@ -2,10 +2,10 @@ import Event, {EventTypes} from "./objects/event.js";
 import Parser, { Operators as Op } from "./libs/parser.js"
 
 import adventure from "../design/example_adventure.json";
-import StateExecutor from "./engine/state-executor.js";
+import Executor from "./engine/state-executor.js";
 
 try {
-    let s = new StateExecutor(adventure);
+    let s = new Executor(adventure);
     let a = s.getProperty();
 
     // let s = i.getSettableVariables();

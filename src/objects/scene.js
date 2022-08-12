@@ -31,7 +31,6 @@ class Scene {
 
     getSettableVariables () {
         let props = structuredClone(this);
-
         delete props.id;
         return props;
     }

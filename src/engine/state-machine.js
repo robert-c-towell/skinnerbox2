@@ -2,7 +2,7 @@ import Event, {EventTypes} from "./../objects/event.js";
 import Prop from "./../objects/prop.js";
 import Scene from "./../objects/scene.js";
 
-import StateExecutor from "./state-executor.js";
+import Executor from "./executor.js";
 import Evaluator from "./evaluator.js";
 
 /**
@@ -15,8 +15,8 @@ import Evaluator from "./evaluator.js";
 
 class StateMachine {
     constructor(adventure) {
-        let stateExecutor = new StateExecutor(adventure);
-        this.evaluator = new Evaluator(stateExecutor);
+        let executor = new Executor(adventure);
+        this.evaluator = new Evaluator(executor);
 
         this.adventure = adventure;
     }
@@ -34,9 +34,9 @@ class StateMachine {
          * 1. Statemachine receive input from the user
          * 2. Pass input to the parser
          * 3. Parser will use the Evaluator to handle non-string input
-         * 4. Parser uses State Executor to make the changes
+         * 4. Parser uses Executor to make the changes
          * 5. Parser passes control back to the state machine
-         * 6. Check any events that trigger, use Evaluator and State Executor
+         * 6. Check any events that trigger, use Evaluator and Executor
          */
 
         let executableInputEvents = [];

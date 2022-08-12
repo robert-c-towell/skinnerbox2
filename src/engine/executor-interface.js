@@ -1,7 +1,7 @@
-class StateExecutorInterface {
+class ExecutorInterface {
     constructor(adventure) {
         if (!adventure) {
-            throw new Error("Property adventure required.");
+            throw new Error("Parameter adventure required.");
         }
         this.adventure = adventure;
     }
@@ -10,4 +10,4 @@ class StateExecutorInterface {
     setProperty () {}
 }
 
-export {StateExecutorInterface as default};
+export {ExecutorInterface as default};

@@ -32,7 +32,9 @@ class Event {
     }
 
     getSettableVariables () {
-        return {};
+        let props = structuredClone(this);
+        delete props.id;
+        return props;
     }
 };
 

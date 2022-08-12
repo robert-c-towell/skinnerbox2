@@ -1,4 +1,4 @@
-import StateExecutorInterface from "./state-executor-interface.js";
+import ExecutorInterface from "./executor-interface.js";
 import Evaluator, { Operators as Op } from "./evaluator.js";
 
 import adventure from "../../design/example_adventure.json";
@@ -7,11 +7,11 @@ describe("Evaluator", () => {
     let evaluator;
 
     beforeAll(() => {
-        let stateExecutorInterface = new StateExecutorInterface(adventure);
-        evaluator = new Evaluator(stateExecutorInterface);
+        let executorInterface = new ExecutorInterface(adventure);
+        evaluator = new Evaluator(executorInterface);
     })
 
-    test("constructor() should create a Evaluator", () => {
+    test("constructor() should create an Evaluator", () => {
         expect(evaluator).toBeTruthy();
         expect(evaluator).toBeInstanceOf(Evaluator);
         expect(() => new Evaluator()).toThrow();

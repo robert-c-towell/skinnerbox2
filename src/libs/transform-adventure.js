@@ -21,25 +21,16 @@ class TransformAdventure {
     
     toObjects(adventure) {
         let events = adventure.events.map((e) => this.Event.create(e));
-
-        let props = adventure.props.map((i) => {
-            i = this.Prop.create(i);
-            return i;
-        });
-
-        let scenes = adventure.scenes.map((l) => {
-            l = this.Scene.create(l);
-            return l;
-        });
-
-        //let settings = this.Settings.create(adventure.settings);
+        let props = adventure.props.map((p) => this.Prop.create(p));
+        let scenes = adventure.scenes.map((s) => this.Scene.create(s));
+        let settings = this.Settings.create(adventure.settings);
 
         let objects = {
             events: events,
             props: props,
             scenes: scenes,
             //players: players,
-            //settings: settings
+            settings: settings
         }
 
         return objects;
