@@ -12,7 +12,7 @@ describe("Parser", () => {
     beforeAll(() => {
         let executorInterface = new ExecutorInterface(adventure);
         evaluator = new Evaluator(executorInterface);
-        parser = new Parser(adventure, evaluator);
+        parser = new Parser(adventure, evaluator, executorInterface);
     })
 
     test("constructor() should create a Parser", () => {

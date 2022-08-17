@@ -5,14 +5,27 @@ class Executor extends ExecutorInterface {
         super(adventure);
     }
 
-    getProperty (object) {
+    getAdventure() {
+        return this.adventure;
+    }
+
+    getProperty(propId) {
         console.log("test");
         throw new Error("not implemented");
     }
 
-    setProperty (object, value) {
+    moveProp(propId, value) {
         console.log("test");
-        // call getSettableVariables on an object to know what can be modified
+        throw new Error("not implemented");
+    }
+
+    setState(propId, value) {
+        console.log("test");
+        throw new Error("not implemented");
+    }
+
+    setProperty(propId, value) {
+        console.log("test");
         throw new Error("not implemented");
     }
 }

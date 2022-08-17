@@ -6,8 +6,12 @@ class ExecutorInterface {
         this.adventure = adventure;
     }
 
-    getProperty () {}
-    setProperty () {}
+    getAdventure() {}
+    getProperty(propId) {}
+    
+    moveProp(propId, value) {}
+    setState(propId, value) {}
+    setProperty(propId, value) {}
 }
 
 export {ExecutorInterface as default};

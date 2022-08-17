@@ -17,12 +17,12 @@ describe("Evaluator", () => {
         expect(() => new Evaluator()).toThrow();
     });
 
-    test("evaluate() should require an object with one key from the op list", () => {
+    test("evaluate() should require an object with one key from the op list, or a string", () => {
         expect(() => evaluator.evaluate()).toThrow();
-        expect(() => evaluator.evaluate("string")).toThrow();
         expect(() => evaluator.evaluate([Op["!"]])).toThrow();
         expect(() => evaluator.evaluate([Op["!"], false])).toThrow();
         expect(() => evaluator.evaluate({ a: 1 })).toThrow();
+        expect(() => evaluator.evaluate("string")).toBeTruthy();
     });
 
     test("evaluate() should handle comparison operators", () => {

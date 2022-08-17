@@ -55,7 +55,7 @@ const EvaluationFuncs = {
     concat: (...args) => args.join(""),
     contains: (a,b) => a.includes(b),
     exists: exists,
-    variable: (a,b) => {throw new Error("not implemented")},
+    variable: (a,b) => variable(a,b),
 }
 
 class Evaluator {
@@ -67,7 +67,10 @@ class Evaluator {
     }
 
     evaluate(expression) {
-        if (!expression || typeof expression !== "object") {
+        if (typeof expression === "string") {
+            return expression;
+        }
+        if (!expression || Array.isArray(expression) || typeof expression !== "object") {
             throw new Error(`Parameter expression must be an object, found ${typeof expression} instead.`);
         }
 
@@ -98,6 +101,10 @@ class Evaluator {
 
 function exists(a) {
     return a != undefined && a != null && a != false;
+}
+
+function variable(a,b) {
+    throw new Error("not yet implemented");
 }
 
 export { Evaluator as default };

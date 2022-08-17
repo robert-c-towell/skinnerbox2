@@ -2,6 +2,7 @@ import Event, {EventTypes} from "./../objects/event.js";
 import Prop from "./../objects/prop.js";
 import Scene from "./../objects/scene.js";
 
+import Parser from "./parser.js";
 import Executor from "./executor.js";
 import Evaluator from "./evaluator.js";
 
@@ -15,9 +16,9 @@ import Evaluator from "./evaluator.js";
 
 class StateMachine {
     constructor(adventure) {
-        let executor = new Executor(adventure);
+        this.executor = new Executor(adventure);
         this.evaluator = new Evaluator(executor);
-
+        this.parser = new Parser(adventure, this.evaluator, this.executor);
         this.adventure = adventure;
     }
 
@@ -31,7 +32,6 @@ class StateMachine {
         }
 
         /**
-         * 1. Statemachine receive input from the user
          * 2. Pass input to the parser
          * 3. Parser will use the Evaluator to handle non-string input
          * 4. Parser uses Executor to make the changes
@@ -39,58 +39,46 @@ class StateMachine {
          * 6. Check any events that trigger, use Evaluator and Executor
          */
 
-        let executableInputEvents = [];
-        let executableGeneralEvents = [];
-
         let messages = [];
         let broadcasts = [];
 
-        function filterEvents(events) {
-            let executableEvents = [];
+        // 2. Pass input to the parser
+        let parser = new Parser(this.adventure, this.evaluator);
+        let parsedResponse = parser.parse(message.input, message.playerName);
 
-            for (let e of events) {
-                let conditionsAreMet = this.evaluator.evaluate(e.conditions);
-                if (conditionsAreMet) {
-                    executableEvents.push(e);
-                }
-            }
-
-            return executableEvents;
+        message.push(parsedResponse.message);
+        if (parsedResponse.broadcast) {
+            message.push(parsedResponse.broadcast);
         }
 
-        // 1. Check player for relevant actions
-        
+        let updatedAdventure = this.executor.getAdventure();
 
-        // 6. Execute the events
-        // 7. Lastly, build a message list of what happened for the current player, and another for the other players
-        for (let event of executableInputEvents) {
-            for (let effect of event) {
-                let response = this.evaluator.evaluate(effect, message.input);
-                if (response.message) {
-                    messages.push(response.message);
-                } else if (response.broadcast) {
-                    broadcasts.push(response.broadcast);
-                }
-            }
-        }
+        // 6. Check any events
 
-        for (let event of executableGeneralEvents) {
-            let response = this.evaluator.evaluate(event, message.input);
-            if (response.message) {
-                messages.push(response.message);
-            } else if (response.broadcast) {
-                broadcasts.push(response.broadcast);
-            }
-        }
+        // let executableEvents = [];
+
+        // for (let e of events) {
+        //     let conditionsAreMet = this.evaluator.evaluate(e.conditions);
+        //     if (conditionsAreMet) {
+        //         executableEvents.push(e);
+        //     }
+        // }
+
+        // for (let event of executableInputEvents) {
+        //     for (let effect of event) {
+        //         let response = this.evaluator.evaluate(effect, message.input);
+        //         if (response.message) {
+        //             messages.push(response.message);
+        //         } else if (response.broadcast) {
+        //             broadcasts.push(response.broadcast);
+        //         }
+        //     }
+        // }
 
         return [
             {
-                id: "a",
+                playerName: message.playerName,
                 messages: messages
-            },
-            {
-                id: "b",
-                messages: broadcasts
             }
         ];
     }
